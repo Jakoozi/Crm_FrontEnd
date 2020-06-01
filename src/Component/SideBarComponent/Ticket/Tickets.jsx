@@ -4,7 +4,8 @@ import Swal from "sweetalert2";
 import  Moment from 'react-moment';
 import { Link } from "react-router-dom";
 import _ from 'lodash';
-import CloseTicketAPICall from "../../../JsFolder/CloseTicketAPICall"
+import CloseTicketAPICall from "../../../JsFolder/CloseTicketAPICall";
+import { MDBDataTable } from 'mdbreact';
 
 
 export default class Tickets extends Component{
@@ -16,11 +17,11 @@ export default class Tickets extends Component{
         loaded:false, 
         ticketCloser : new CloseTicketAPICall()
     };
-    componentDidMount(){
-        let userData = JSON.parse(window.localStorage.getItem("userData")); 
-        let {company_Id} = userData;
+    UNSAFE_componentWillMount(){
+        // let userData = JSON.parse(window.localStorage.getItem("userData")); 
+        // let {company_Id} = userData;
 
-        let url = `https://localhost:5001/api/Ticket/GetTicketByCompany_Id?id=${company_Id}`
+        let url = `https://localhost:5001/api/Ticket/GetAllTickets`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -51,10 +52,10 @@ export default class Tickets extends Component{
     ticketStatusSetter = (status) =>{
         switch(status){
             case 1:
-                status = <div class="badge badge-success"><h6>New</h6></div>;
+                status = <div class="badge badge-success"><p>New</p></div>;
                 break;
             case 2:
-                status = <div class="badge badge-warning"><h6>Resolved</h6></div>;
+                status = <div class="badge badge-warning"><p>Resolved</p></div>;
                 break;
             case 3:
                 status = <div class="badge badge-danger"><h6>Closed</h6></div>;
@@ -66,129 +67,112 @@ export default class Tickets extends Component{
         let formatedDate = date;
         return <Moment format="ddd Do MMM, YYYY HH:mm">{formatedDate}</Moment>
     }
-    closeTicket = (ticketId) =>{
-
+    closeTicket = (ticketId, ticket_Status) =>{
+        return(
+            <div  onClick={()=> this.state.ticketCloser.closeTicket(ticketId, ticket_Status)}>
+                <button class="btn btn-danger"> 
+                    Close Ticket
+                </button>
+            </div>
+        );
     }
-    // handleCloseTicket = (ticketId, ticket_Status) =>{
-    //     if(ticket_Status == 2){
-    //         this.state.ticketCloser.closeTicket(ticketId);
-    //     }
-    //     else if(ticket_Status == 3){
-    //         Swal.fire({
-    //             title:'Auto close alert!',
-    //             text: 'Please the ticket is Already Closed',
-    //             timer:5000
-    //         })
-    //     }
-    //     else{
-    //         Swal.fire({
-    //             title:'Auto close alert!',
-    //             text: 'Please the ticket is not yet resolved',
-    //             timer:5000
-    //         })
-    //     }
-    //   }
+    resolveTicket = (ticketId) =>{
+        return(
+            <div onClick={() => this.handleViewClick(ticketId)}>
+                <Link to="/ResolveTicket" className="nav-link"> 
+                    <button class="btn btn-primary"> 
+                        Resolve Ticket
+                    </button>
+                </Link>
+            </div>
+        );
+    }
+
   
     render(){
         let data = this.state.data;
-        let loaded = this.state.loaded;
-        let all;
-       
-
-        if(loaded === true){
-            all = data.map((data, index) =>{
+        let all = data.map(data =>{
                 return(
-                    <tbody key={data.id}>
-                        <tr role="row" className="odd">
-                            <td class="sorting_1">
-                                {data.ticket_Subject}
-                            </td>
-                            <td>
-                                {data.ticket_Details}
-                            </td>
-                            <td>
-                                {this.ticketStatusSetter(data.ticket_Status)}
-                            </td>
-                            <td>
-                                {this.timeFormater(data.createdAt)}
-                            </td>
-                            <td>
-                                {this.timeFormater(data.updatedAt)}
-                            </td>
-                            <td onClick={() => this.handleViewClick(data.id)}>
-                                <Link to="/ResolveTicket" className="nav-link"> 
-                                    <button class="btn btn-primary"> 
-                                        <p>Resolve Ticket</p>
-                                    </button>
-                                </Link>
-                            </td>
-                            <td onClick={()=> this.state.ticketCloser.closeTicket(data.id, data.ticket_Status)}>
-                                <button class="btn btn-danger"> 
-                                    <p>Close Ticket</p>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+                    {
+                        ticket_Subject:data.ticket_Subject,
+                        ticket_Details:data.ticket_Details,
+                        ticket_Status:this.ticketStatusSetter(data.ticket_Status),
+                        createdAt:this.timeFormater(data.createdAt),
+                        updatedAt:this.timeFormater(data.updatedAt),
+                        resolve_Ticket: this.resolveTicket(data.id),
+                        close_Ticket:this.closeTicket(data.id, data.ticket_Status),
+
+
+                    }
+                   
                 );
-            });
+        });
+        const Tabledata = {
+            columns: [
+              {
+                label: 'Ticket Subject',
+                field: 'ticket_Subject',
+                sort: 'asc',
+                width: 150
+              },
+              {
+                label: 'Ticket Details',
+                field: 'ticket_Details',
+                sort: 'asc',
+              
+              },
+              {
+                label: 'Ticket Status',
+                field: 'ticket_Status',
+                sort: 'asc',
+              },
+              {
+                label: 'Created Date',
+                field: 'createdAt',
+                sort: 'asc',
+            
+              },
+              {
+                label: 'Updated Date',
+                field: 'updatedAt',
+                sort: 'asc',
+             
+              },
+              {
+                label: 'Resolve Ticket',
+                field: 'resolve_Ticket',
+                sort: 'asc',
+               
+              },
+              {
+                label: 'Close Ticket',
+                field: 'close_Ticket',
+                sort: 'asc',
+                width: 100
+              }
+            ],
+            rows:all
         }
-        else
-        {
-            all = "Loading..."
-        }
-     
-        return(
+        return (
             <Layout>
-                    <div class="content-w">
-                        <div class="content-i">   
-                            <div class="content-box">
-                                <div class="element-wrapper">
-                                  <h4 class="element-header">ALL TICKETS</h4>
-                                
-                                      <table  class="table table-striped table-lightfont dataTable">
-                                        <thead>
-                                          <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"  style={{width: '280px'}}>
-                                                TICKET SUBJECT
-                                              </th>
-                                              <th class="sorting_asc" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1"             aria-sort="ascending" aria-label="Name: activate to sort column descending"  style={{width: '280px'}}>
-                                                TICKET DETAILS
-                                              </th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"  style={{width: '280px'}}>
-                                                TICKET STATUS
-                                              </th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending"  style={{width: '280px'}}>
-                                                CREATED DATE
-                                              </th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style={{width: '280px'}}>
-                                                UPDATED DATE
-                                              </th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style={{width: '280px'}}>
-                                                  RESOLVE TICKET
-                                              </th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style={{width: '280px'}}>
-                                                  CLOSE TICKET
-                                              </th>
-                                          </tr>
-                                        </thead>
-                                        <tfoot>
-                                          <tr>
-                                            <th rowspan="1" colspan="1">TICKET SUBJECT</th>
-                                            <th rowspan="1" colspan="1">TICKET DETAILS</th>
-                                            <th rowspan="1" colspan="1">TICKET STATUS</th>
-                                            <th rowspan="1" colspan="1">CREATED DATE</th>
-                                            <th rowspan="1" colspan="1">UPDATED DATE</th>
-                                            <th rowspan="1" colspan="1">RESOLVE TICKET</th>
-                                            <th rowspan="1" colspan="1">CLOSE TICKET</th>
-                                          </tr>
-                                        </tfoot>
-                                        {all}
-                                      </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="content-w">
+                   <div class="content-i">   
+                        <div class="content-box">
+                             <div class="element-wrapper">
+                                 <MDBDataTable
+                                     striped
+                                     bordered
+                                     hover
+                                     entriesOptions={[5, 10, 15, 20]}
+                                     data={Tabledata}
+                                 />
+                             </div>
+                         </div>
+                     </div>
+                 </div>
             </Layout>
-        );
+           
+         );
+
     }
 }

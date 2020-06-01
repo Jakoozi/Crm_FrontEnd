@@ -41,7 +41,7 @@ export default class Login extends Component {
                 <div class="row">
                     <div class="col-md-12"></div>
                 </div>
-                <div className="row" style={{paddingTop: '110px'}}>
+                <div className="row" style={{paddingTop: '100px', paddingTop:'150px'}}>
                     <div className="col-md-4">
                     </div>
                     <div className="col-md-4">

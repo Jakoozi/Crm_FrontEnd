@@ -5,7 +5,7 @@ import  Moment from 'react-moment';
 import { Link } from "react-router-dom";
 import _ from 'lodash';
 import {CustomerNoOfTickets} from '../../../JsFolder/CustomerNoOfTickets';
-// import {CustomerTicketNoReturner} from '../../JsFolder/CustomerNoOfTickets';
+import { MDBDataTable } from 'mdbreact';
 
 
 export default class ViewAllTeams extends Component{
@@ -37,97 +37,78 @@ export default class ViewAllTeams extends Component{
                 );
     }
     addDataToState = (datarecived) => {
-        console.log(datarecived)
         _.reverse(datarecived);
         this.setState({data:datarecived, loaded:true})
     }
     handleViewClick = (TeamId) =>{
-        window.localStorage.setItem("TeamId", JSON.stringify(TeamId));
-                                      
+        window.localStorage.setItem("TeamId", JSON.stringify(TeamId));                                 
     }
-    userRoleConverter = (user_Role) =>{
-        switch (user_Role)
-         {
-            case 1:
-                user_Role = "Admin"
-                break;
-            case 2:
-                user_Role = "Admin"
-                break;
-        }
-        return user_Role;
+    handleViewTTeam = (teamId) =>{
+        return(
+            <div onClick={() => this.handleViewClick(teamId)}>
+                <Link to="/EditTeam" className="nav-link" > 
+                    <button class="btn btn-primary">
+                        Edit Team
+                    </button>
+                </Link>
+            </div>
+        );
+        
     }
     render(){
 
         let data = this.state.data;
         let loaded = this.state.loaded;
-        let all;
+        let all = data.map(data =>{
+            return(
+                {
+                    team_Name:  data.team_Name,
+                    team_Description: data.team_Description,
+                    view_Team:this.handleViewTTeam(data.id),
+                }
+            );
+        });
 
-
-        if(loaded === true){
-            all = data.map((data, index) =>{
-                return(
-                    <tbody key={data.id}>
-                        <tr role="row" className="odd">
-                            <td class="sorting_1">
-                                <p>{data.team_Name}</p>
-                            </td>
-                            <td>
-                                {data.team_Description}
-                            </td>
-                            <td onClick={() => this.handleViewClick(data.id)}>
-                                <Link to="/EditTeam" className="nav-link" > 
-                                    <button class="btn btn-primary">
-                                        <p>Edit Team</p>
-                                    </button>
-                                </Link>
-                            </td>
-                        </tr>
-                    </tbody>
-                )
-            });
+        const Tabledata = {
+            columns: [
+              {
+                label:  `Team Name`,
+                field: 'team_Name',
+                sort: 'asc'
+              },
+              {
+                label: 'Team Description',
+                field: 'team_Description',
+                sort: 'asc',
+               
+              },
+              {
+                label: 'View Team',
+                field: 'view_Team',
+                sort: 'asc',
+              }
+            ],
+            rows:all
         }
-        else
-        {
-            all = "Loading..."
-        }
-
-        return(
+       
+        return (
             <Layout>
                 <div class="content-w">
-                        <div class="content-i">   
-                            <div class="content-box">
-                                <div class="element-wrapper">
-                                    <h4 class="element-header">List Of All Teams</h4>
-                                
-                                        <table  class="table table-striped table-lightfont dataTable">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th class="sorting_asc" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"  style={{width: '280px'}}>
-                                                        Team Name
-                                                    </th>
-                                                    <th class="sorting_asc" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1"             aria-sort="ascending" aria-label="Name: activate to sort column descending"  style={{width: '280px'}}>
-                                                        Team Description
-                                                    </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="dataTable1" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style={{width: '280px'}}>
-                                                        Edit Team
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th rowspan="1" colspan="1">Team Name</th>
-                                                    <th rowspan="1" colspan="1">Team Description</th>
-                                                    <th rowspan="1" colspan="1">Edit Team</th>
-                                                </tr>
-                                            </tfoot>
-                                            {all}
-                                        </table>
-                                </div>
-                            </div>
-                        </div>
-                </div>
+                   <div class="content-i">   
+                        <div class="content-box">
+                             <div class="element-wrapper">
+                                 <MDBDataTable
+                                     striped
+                                     bordered
+                                     hover
+                                     entriesOptions={[2, 10, 15, 20]}
+                                     data={Tabledata}
+                                 />
+                             </div>
+                         </div>
+                     </div>
+                 </div>
             </Layout>
-        )
+        );
     }
 } 
