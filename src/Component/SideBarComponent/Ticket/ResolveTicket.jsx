@@ -44,7 +44,7 @@ export default class ViewTicket extends Component{
                            console.log(error)
                            Swal.fire(
                              {
-                               type: 'error',
+                               icon: 'error',
                                title:'please!!',
                                text: 'Check your internet connection'
                              }
@@ -86,15 +86,14 @@ export default class ViewTicket extends Component{
     timeFormater = (date) =>{
         let formatedDate = date;
         return <Moment format="ddd Do MMM, YYYY HH:mm">{formatedDate}</Moment>
-      }
-      handleInputChange = e => {
+    }
+    handleInputChange = e => {
         let value = e.target.value;
-        console.log(value);
     
         this.setState({ staff_Response:value });
         
-      };
-      onSubmit = (e) =>{ 
+    }
+    onSubmit = (e) =>{ 
         e.preventDefault();
 
         this.setState({ display: false});
@@ -113,7 +112,6 @@ export default class ViewTicket extends Component{
         {
             let data = JSON.stringify(data1);
             let url = `https://localhost:5001/api/Ticket/ResolveTicket`;
-            console.log(data);
 
             fetch(url,{
                 method: 'put',
@@ -124,14 +122,13 @@ export default class ViewTicket extends Component{
             })
             .then(response => response.json())
             .then(json => {
-                console.log(json, "This is the json response");
                 responseSender(json);
             })
             .catch(error => {
                 console.log(error)
                 Swal.fire(
                   {
-                    type: 'error',
+                    icon: 'error',
                     title:'Sorry',
                     text: `Something Went Wrong!`
                 })
@@ -140,14 +137,14 @@ export default class ViewTicket extends Component{
         else
         {
             Swal.fire({
-                type: 'warning',
+                icon: 'warning',
                 title:'Please!',
                 text: 'Fill In The Form Correctly'
             });               
         }
         this.setState({ display: true});
-      }
-      viewTicketPageUi =() =>{
+    }
+    viewTicketPageUi =() =>{
         let {ticket_Subject, ticket_Details, ticket_Status, createdAt, staff_Response,customer_Id} = this.state;
         return(
             <div className="row">
@@ -205,6 +202,7 @@ export default class ViewTicket extends Component{
                         </div>
                         <div class="form-buttons-w">
                             <button class="btn btn-primary" type="submit">
+                                <i class="os-icon os-icon-mail-18"></i>
                                 Send Response
                             </button>
                         </div>
@@ -234,7 +232,7 @@ export default class ViewTicket extends Component{
               />
         </div>
         )
-     }
+    }
     render(){
         // console.log(this.state)
         return(

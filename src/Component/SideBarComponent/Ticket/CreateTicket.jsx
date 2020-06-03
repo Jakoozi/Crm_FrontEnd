@@ -28,6 +28,7 @@ export default class CreateTicketComponent extends Component{
         ],
         id:"",
         display:true,
+        userRole:"",
         companyExtensionMethods : new CompanyExtensionMethods()
     }
     
@@ -49,7 +50,7 @@ export default class CreateTicketComponent extends Component{
             console.log(error)
             Swal.fire(
                 {
-                  type: 'error',
+                  icon: 'error',
                   title:'please!!',
                   text: 'Check your internet connection'
                 }
@@ -59,7 +60,14 @@ export default class CreateTicketComponent extends Component{
     addUserDataToState = (userData) =>{
         //this method adds the gotten user data to state
         let {id} = userData;
-        this.setState({id});
+        let {company_Id} = userData
+        if(userData.user_Role === 1){
+            this.setState({id, userRole:userData.user_Role});
+        }
+        else if (userData.user_Role === 2){
+            this.setState({id, data:{company_Id}, userRole:userData.user_Role});
+        }
+        
     }
     addCustomersToState = (customers) =>{
         //this method adds the customers to state
@@ -79,7 +87,7 @@ export default class CreateTicketComponent extends Component{
             console.log(error)
             Swal.fire(
                 {
-                  type: 'error',
+                  icon: 'error',
                   title:'please!!',
                   text: 'Check your internet connection'
                 }
@@ -94,10 +102,10 @@ export default class CreateTicketComponent extends Component{
         let value = e.target.value;
         let data = { ...this.state.data };
         data[name] = value;
-        console.log(data);
-    
+        console.log(data,'handleclick is consoled')
+      
         this.setState({ data });
-      };
+    };
     customerOptionReturner = () =>{
         let {customers} = this.state;
         let all = customers.map((customer) =>{
@@ -107,8 +115,35 @@ export default class CreateTicketComponent extends Component{
           });
           return all;
     }
+    //this method returns company selector if the user is an admin
+    companySelctorReturner = () =>{
+        let {company_Id} = this.state.data
+        //console.log(this.state.userRole, 'create Ticket state');
+        if(this.state.userRole === 1){
+            return(
+                <div className="form-group">
+                    <label htmlFor="company"><h5> Company:</h5></label>
+                    <select 
+                        name="company_Id"
+                        onChange={this.handleInputChange}
+                        class="form-control "
+                        value={company_Id}
+                    >
+                    <option hidden>selecte company...</option>
+                    {this.state.companyExtensionMethods.companyOptionReturner(this.state.companies, this.state.companyLoaded)}
+                    </select>
+                </div>
+            )
+        }
+        else if (this.state.userRole === 2){
+            return(
+                null
+            )
+        }
+    }
     createTicketPageUi =() =>{
-        let {ticket_Subject, ticket_details, customer_Id, company_Id} = this.state.data;
+        
+        let {ticket_Subject, ticket_details, customer_Id} = this.state.data;
         return(
             <div className="row">
                 <div className="col-md-2"></div>
@@ -166,24 +201,14 @@ export default class CreateTicketComponent extends Component{
                                 </div>
                             </div>
                             <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="company"><h5> Company:</h5></label>
-                                    <select 
-                                        name="company_Id"
-                                        onChange={this.handleInputChange}
-                                        class="form-control "
-                                        value={company_Id}
-                                    >
-                                    <option hidden>selecte company...</option>
-                                    {this.state.companyExtensionMethods.companyOptionReturner(this.state.companies, this.state.companyLoaded)}
-                                    </select>
-                                </div>
+                                {this.companySelctorReturner()}
                             </div>
                         </div>
 
                         
                         <div class="form-buttons-w">
                             <button class="btn btn-primary" type="submit">
+                                <i class="os-icon os-icon-mail-18"></i>
                                 Create Ticket
                             </button>
                         </div>
@@ -212,7 +237,6 @@ export default class CreateTicketComponent extends Component{
             
             let data = JSON.stringify(data1);
             let url = `https://localhost:5001/api/Ticket/CreateTicket`;
-            console.log(data, 'data is logged')
      
             fetch(url,{
                 method: 'post',
@@ -223,7 +247,6 @@ export default class CreateTicketComponent extends Component{
             })
             .then(response => response.json())
             .then(json => {
-                console.log(json, "This is the json response");
                 responseSender(json);
                 this.setState({ display: true});
             })
@@ -231,7 +254,7 @@ export default class CreateTicketComponent extends Component{
                 console.log(error)
                 Swal.fire(
                   {
-                    type: 'error',
+                    icon: 'error',
                     title:'Sorry',
                     text: `Something Went Wrong!`
                 })
@@ -242,7 +265,7 @@ export default class CreateTicketComponent extends Component{
         {
             Swal.fire(
             {
-                type: 'warning',
+                icon: 'warning',
                 title:'Please!',
                 text: 'Fill In The Form Correctly'
             }
@@ -268,6 +291,7 @@ export default class CreateTicketComponent extends Component{
     
 
     render(){
+        //console.log(this.state, 'state is consoled')
         return(
             <Layout>
                 {this.state.display ? this.createTicketPageUi() : this.spinLoader()}

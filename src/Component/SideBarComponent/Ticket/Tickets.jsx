@@ -18,36 +18,62 @@ export default class Tickets extends Component{
         ticketCloser : new CloseTicketAPICall()
     };
     UNSAFE_componentWillMount(){
-        // let userData = JSON.parse(window.localStorage.getItem("userData")); 
-        // let {company_Id} = userData;
+        let userData = JSON.parse(window.localStorage.getItem("userData")); 
+        let {company_Id, user_Role} = userData;
+        console.log(company_Id, user_Role,'user role and company id are consoled')
 
-        let url = `https://localhost:5001/api/Ticket/GetAllTickets`
+        if(user_Role === 1){
+            let url = `https://localhost:5001/api/Ticket/GetAllTickets`;
+
+            fetch(url)
+            .then((response) =>  response.json())
+            .then((json) => {
+                this.addDataToState(json.data);
+            } ) 
+            .catch(error => { 
+                console.log(error)
+                Swal.fire(
+                  {
+                    icon: 'error',
+                    title:'please!!',
+                    text: 'Check your internet connection'
+                  }
+                )
+            });
+        }
+        else if(user_Role === 2){
+            let url = `https://localhost:5001/api/Ticket/GetTicketByCompany_Id?id=${company_Id}`;
+
+            fetch(url)
+            .then((response) =>  response.json())
+            .then((json) => {
+                this.addDataToState(json.data);
+            } ) 
+            .catch(error => { 
+                console.log(error)
+                Swal.fire(
+                  {
+                    icon: 'error',
+                    title:'please!!',
+                    text: 'Check your internet connection'
+                  }
+                )
+            });
+        }
+
+        
     
-        fetch(url)
-                .then((response) =>  response.json())
-                .then((json) => {
-                    this.addDataToState(json.data);
-                } ) 
-                .catch(error => { 
-                           console.log(error)
-                           Swal.fire(
-                             {
-                               type: 'error',
-                               title:'please!!',
-                               text: 'Check your internet connection'
-                             }
-                           )
-                       } 
-                );
+        
+                
+                
+                
       }
-      addDataToState = (datarecived) => {
+    addDataToState = (datarecived) => {
         _.reverse(datarecived);
         this.setState({data:datarecived, loaded:true})
     }
     handleViewClick = (ticketId) =>{
-        window.localStorage.setItem("ticketId", JSON.stringify(ticketId));
-        
-                                      
+        window.localStorage.setItem("ticketId", JSON.stringify(ticketId));                                 
     }
     ticketStatusSetter = (status) =>{
         switch(status){
@@ -88,7 +114,6 @@ export default class Tickets extends Component{
         );
     }
 
-  
     render(){
         let data = this.state.data;
         let all = data.map(data =>{

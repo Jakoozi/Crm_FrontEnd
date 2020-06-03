@@ -14,7 +14,7 @@ export  const CustomerNoOfTickets =  (id) =>{
             console.log(error)
             Swal.fire(
                 {
-                  type: 'error',
+                  icon: 'error',
                   title:'please!!',
                   text: 'Check your internet connection'
                 }

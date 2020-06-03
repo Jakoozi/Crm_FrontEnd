@@ -7,46 +7,69 @@ import { responseSender } from './responseSender';
 
 export default class CloseTicketAPICall extends Component{
 
-    closeTicket = ( id, ticket_Status) =>{
+  closeTicket = ( id, ticket_Status) =>{
       
-      if(ticket_Status == 2){
-        console.log(id,ticket_Status, 'id is logged in close ticket')
-        let url = `https://localhost:5001/api/Ticket/CloseTicket/${id}`;
-     
-        fetch(url,{
-          method: 'put',
-          headers:{
-            'Content-Type': 'application/json'
+    Swal.fire({
+        title:` Are you sure?`,
+        text: 'You Want To Close This Ticket!',
+        icon:"question",
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+    })
+    .then((result) => {
+        if(result.value){
+          if(ticket_Status == 2){
+            console.log(id,ticket_Status, 'id is logged in close ticket')
+            let url = `https://localhost:5001/api/Ticket/CloseTicket/${id}`;
+         
+            fetch(url,{
+              method: 'put',
+              headers:{
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json, "This is the json response");
+                responseSender(json);
+            })
+            .catch(error => {
+                console.log(error)
+                Swal.fire({
+                  title:'Sorry!',
+                  text: 'Something Went Wrong!',
+                  icon:'error',
+                  timer:4000
+                })
+            })
           }
-      })
-        .then(response => response.json())
-        .then(json => {
-            console.log(json, "This is the json response");
-            responseSender(json);
-        })
-        .catch(error => {
-            console.log(error)
+          else if(ticket_Status == 3){
+              Swal.fire({
+                    title:'Alert!',
+                    text: 'Please the ticket is Already Closed',
+                    icon:'info',
+                    timer:4000
+                })
+            }
+          else{
+                Swal.fire({
+                    title:'Alert!',
+                    text: 'Please the ticket is not yet resolved',
+                    icon:'info',
+                    timer:5000
+                })
+          }
+        }
+        else if (result.dismiss) {
             Swal.fire(
-              {
-                type: 'error',
-                title:'Sorry',
-                text: `Something Went Wrong!`
-            })
-        })
+                'Alert',
+                'The Ticket Is Still Open',
+                'info'
+              )
         }
-        else if(ticket_Status == 3){
-            Swal.fire({
-                title:'Auto close alert!',
-                text: 'Please the ticket is Already Closed',
-                timer:5000
-            })
-        }
-        else{
-            Swal.fire({
-                title:'Auto close alert!',
-                text: 'Please the ticket is not yet resolved',
-                timer:5000
-            })
-        }
+    })
+      
+
       }       
 }

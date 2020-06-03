@@ -92,7 +92,7 @@ export default class CreateCustomer extends Component{
                 console.log(error)
                 Swal.fire(
                   {
-                    type: 'error',
+                    icon: 'error',
                     title:'Sorry',
                     text: `Something Went Wrong!`
                 })
@@ -103,7 +103,7 @@ export default class CreateCustomer extends Component{
         {
             Swal.fire(
             {
-                type: 'warning',
+                icon: 'warning',
                 title:'Please!',
                 text: 'Fill In The Form Correctly'
             }

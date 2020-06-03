@@ -17,7 +17,8 @@ export default class ViewAllCompanies extends Component{
     };
 
     UNSAFE_componentWillMount(){
-        let url = `https://localhost:5001/api/Company/GetAllCompaniesService`
+        // let url = `http://216.117.149.42:2000/api/Company/GetAllCompaniesService`;
+        let url = `https://localhost:5001/api/Company/GetAllCompaniesService`;
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -28,7 +29,7 @@ export default class ViewAllCompanies extends Component{
                            console.log(error)
                            Swal.fire(
                              {
-                               type: 'error',
+                               icon: 'error',
                                title:'please!!',
                                text: 'Check your internet connection'
                              }

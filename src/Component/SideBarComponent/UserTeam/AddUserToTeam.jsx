@@ -53,7 +53,7 @@ export default class AddUserToTeam extends Component{
             console.log(error)
             Swal.fire(
                 {
-                  type: 'error',
+                  icon: 'error',
                   title:'please!!',
                   text: 'Check your internet connection'
                 }
@@ -125,7 +125,7 @@ export default class AddUserToTeam extends Component{
         {
             let data = JSON.stringify(data1);
             let url = `https://localhost:5001/api/UserTeam/AddUserToTeam`;
-            console.log(data, 'data is logged');
+            //console.log(data, 'data is logged');
 
             fetch(url,{
                 method: 'post',
@@ -136,7 +136,6 @@ export default class AddUserToTeam extends Component{
             })
             .then(response => response.json())
             .then(json => {
-                 console.log(json, "This is the json response");
                   responseSender(json);
                   this.setState({ display: true, data:{
                     company_Id:"",
@@ -148,7 +147,7 @@ export default class AddUserToTeam extends Component{
                 console.log(error)
                 Swal.fire(
                   {
-                    type: 'error',
+                    icon: 'error',
                     title:'Sorry',
                     text: `Something Went Wrong!`
                 })
@@ -159,7 +158,7 @@ export default class AddUserToTeam extends Component{
         {
             Swal.fire(
             {
-                type: 'warning',
+                icon: 'warning',
                 title:'Please!',
                 text: 'Fill In The Form Correctly'
             }
@@ -267,7 +266,6 @@ export default class AddUserToTeam extends Component{
         )
     }
     render(){
-        console.log(this.state.data);
         return(
             <Layout>
                 {this.state.display ? this.addUserToTeamPageUi() : this.spinLoader()}

@@ -37,14 +37,13 @@ export default class CompanyExtensionMethods extends Component{
                            console.log(error)
                            Swal.fire(
                              {
-                               type: 'error',
+                               icon: 'error',
                                title:'please!!',
                                text: 'Check your internet connection'
                              }
                            )
                        } 
                 );
-        console.log(this.state.company, 'company extension state is consoled')    
         return this.state.company.company_Name
     }
 }

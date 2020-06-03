@@ -41,14 +41,13 @@ export default class EditTeam extends Component{
         fetch(url)
                 .then((response) =>  response.json())
                 .then((json) => {
-                    //console.log(json)
                     this.addTeamToState(json.data);
                 } ) 
                 .catch(error => { 
                            console.log(error)
                            Swal.fire(
                              {
-                               type: 'error',
+                               icon: 'error',
                                title:'please!!',
                                text: 'Check your internet connection'
                              }
@@ -146,7 +145,6 @@ export default class EditTeam extends Component{
             })
             .then(response => response.json())
             .then(json => {
-                 console.log(json, "This is the json response");
                   responseSender(json);
                   this.setState({ display: true, data:{
                     team_Name:"",
@@ -158,7 +156,7 @@ export default class EditTeam extends Component{
                 console.log(error)
                 Swal.fire(
                   {
-                    type: 'error',
+                    icon: 'error',
                     title:'Sorry',
                     text: `Something Went Wrong!`
                 })
@@ -169,7 +167,7 @@ export default class EditTeam extends Component{
         {
             Swal.fire(
             {
-                type: 'warning',
+                icon: 'warning',
                 title:'Please!',
                 text: 'Fill In The Form Correctly'
             }
@@ -252,7 +250,6 @@ export default class EditTeam extends Component{
         )
      }
     render(){
-        console.log(this.state, 'state is consoled in add data to state');
         return(
             <Layout>
                 {this.state.display ? this.EditTeamPageUi() : this.spinLoader()}

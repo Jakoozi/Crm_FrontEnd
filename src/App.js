@@ -17,6 +17,7 @@ import CreateCompany from './Component/SideBarComponent/Company/CreateCompany';
 import ViewAllCompanies from './Component/SideBarComponent/Company/ViewAllCompanies';
 import EditCompany from "./Component/SideBarComponent/Company/EditCompany";
 import EditTeam from "./Component/SideBarComponent/Team/EditTeam"
+import SwalTest from './Component/SideBarComponent/SwalTest'
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route exact path="/ViewAllCompanies" component={ViewAllCompanies} />
             <Route exact path="/EditCompany" component={EditCompany} />
             <Route exact path="/EditTeam" component={EditTeam} />
+            <Route exact path="/SwalTest" component={SwalTest} />
           </Switch>
         </BrowserRouter>
     </div>

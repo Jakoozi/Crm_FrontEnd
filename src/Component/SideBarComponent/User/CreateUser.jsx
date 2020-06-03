@@ -49,7 +49,7 @@ export default class CreateUser extends Component{
             console.log(error)
             Swal.fire(
                 {
-                  type: 'error',
+                  icon: 'error',
                   title:'please!!',
                   text: 'Check your internet connection'
                 }
@@ -64,7 +64,6 @@ export default class CreateUser extends Component{
         let value = e.target.value;
         let data = { ...this.state.data };
         data[name] = value;
-        console.log(data);
     
         this.setState({ data });
     }
@@ -103,7 +102,6 @@ export default class CreateUser extends Component{
         {
             let data = JSON.stringify(data1);
             let url = `https://localhost:5001/api/User/CreateUser`;
-            console.log(data, 'data is logged');
 
             fetch(url,{
                 method: 'post',
@@ -114,7 +112,6 @@ export default class CreateUser extends Component{
             })
             .then(response => response.json())
             .then(json => {
-                 console.log(json, "This is the json response");
                   responseSender(json);
                   this.setState({ display: true, data:{
                     first_Name:"",
@@ -130,7 +127,7 @@ export default class CreateUser extends Component{
                 console.log(error)
                 Swal.fire(
                   {
-                    type: 'error',
+                    icon: 'error',
                     title:'Sorry',
                     text: `Something Went Wrong!`
                 })
@@ -141,7 +138,7 @@ export default class CreateUser extends Component{
         {
             Swal.fire(
             {
-                type: 'warning',
+                icon: 'warning',
                 title:'Please!',
                 text: 'Fill In The Form Correctly'
             }
@@ -293,7 +290,6 @@ export default class CreateUser extends Component{
         )
      }
     render(){
-        console.log(this.state, 'state is consoled in add data to state');
         return(
             <Layout>
                 {this.state.display ? this.createUserPageUi() : this.spinLoader()}

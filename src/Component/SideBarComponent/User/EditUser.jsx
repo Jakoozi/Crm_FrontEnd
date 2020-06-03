@@ -48,7 +48,7 @@ export default class EditUser extends Component{
                            console.log(error)
                            Swal.fire(
                              {
-                               type: 'error',
+                               icon: 'error',
                                title:'please!!',
                                text: 'Check your internet connection'
                              }
@@ -87,7 +87,7 @@ export default class EditUser extends Component{
             console.log(error)
             Swal.fire(
                 {
-                  type: 'error',
+                  icon: 'error',
                   title:'please!!',
                   text: 'Check your internet connection'
                 }
@@ -168,7 +168,7 @@ export default class EditUser extends Component{
                 console.log(error)
                 Swal.fire(
                   {
-                    type: 'error',
+                    icon: 'error',
                     title:'Sorry',
                     text: `Something Went Wrong!`
                 })
@@ -179,7 +179,7 @@ export default class EditUser extends Component{
         {
             Swal.fire(
             {
-                type: 'warning',
+                icon: 'warning',
                 title:'Please!',
                 text: 'Fill In The Form Correctly'
             }

@@ -21,7 +21,8 @@ export default class Login extends Component {
         },
         login: false,
         loading: true,
-        display: true
+        display: true,
+        user_Role:'',
       };
 
     handleInputChange = e => {
@@ -103,10 +104,9 @@ export default class Login extends Component {
            
           // Code for localStorage
           if(jsonresponse.status_code == 200){
-            console.log(jsonresponse)
             window.localStorage.setItem("userData", JSON.stringify(jsonresponse.data));
-            //this triggers the route to the dashboard
-              return this.setState({ login: true });
+            //this triggers the route to the dashboard and stores the user role to know the dashboard to route to
+              return this.setState({ login: true, user_Role:jsonresponse.data.user_Role });
           }
           else{
             this.setState({ display: true});
@@ -140,7 +140,7 @@ export default class Login extends Component {
             .catch(error => {
                 console.log(error, "error is consoled");
                 Swal.fire({
-                    type: "error",
+                    icon: "error",
                     title: "Opps!!",
                     text: `Something Whent Wrong Please Check Your Internet Connection.`
                 });
@@ -150,7 +150,7 @@ export default class Login extends Component {
         else 
         {
             Swal.fire({
-                type: "warning",
+                icon: "warning",
                 title: "Please!",
                 text: "Please Fill The Form Completely"
             });
@@ -162,7 +162,7 @@ export default class Login extends Component {
 
       //this routes to the CreateTicket page
       if (this.state.login) {
-        this.props.history.push("/CreateTicket");
+            this.props.history.push("/CreateTicket");
       }
 
         return(

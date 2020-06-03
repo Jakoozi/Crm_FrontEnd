@@ -30,7 +30,7 @@ export default class ViewAllUsers extends Component{
                            console.log(error)
                            Swal.fire(
                              {
-                               type: 'error',
+                               icon: 'error',
                                title:'please!!',
                                text: 'Check your internet connection'
                              }
@@ -43,9 +43,7 @@ export default class ViewAllUsers extends Component{
         this.setState({data:datarecived, loaded:true})
     }
     handleViewClick = (toBeEditedUser_Id) =>{
-        console.log(toBeEditedUser_Id)
-        window.localStorage.setItem("toBeEditedUser_Id", JSON.stringify(toBeEditedUser_Id));
-                                      
+        window.localStorage.setItem("toBeEditedUser_Id", JSON.stringify(toBeEditedUser_Id));                             
     }
     userRoleConverter = (user_Role) =>{
         switch (user_Role)
