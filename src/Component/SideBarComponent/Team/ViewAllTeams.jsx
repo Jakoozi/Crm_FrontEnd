@@ -17,7 +17,7 @@ export default class ViewAllTeams extends Component{
     };
 
     UNSAFE_componentWillMount(){
-        let url = `https://localhost:5001/api/Team/GetAllTeams`
+        let url = `http://216.117.149.42:5002/api/Team/GetAllTeams`
     
         fetch(url)
                 .then((response) =>  response.json())

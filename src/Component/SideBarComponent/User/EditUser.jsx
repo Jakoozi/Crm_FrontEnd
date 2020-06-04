@@ -37,7 +37,7 @@ export default class EditUser extends Component{
 
     UNSAFE_componentWillMount (){
         let id = JSON.parse(window.localStorage.getItem("toBeEditedUser_Id"));
-        let url = `https://localhost:5001/api/User/GetUserById/${id}`
+        let url = `http://216.117.149.42:5002/api/User/GetUserById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -75,7 +75,7 @@ export default class EditUser extends Component{
     }
     componentDidMount(){
         //this methods fetches the companies from the server
-        let url = `https://localhost:5001/api/Company/GetAllCompaniesService`;
+        let url = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
 
         fetch(url)
         .then(response => response.json())
@@ -102,9 +102,10 @@ export default class EditUser extends Component{
         let value = e.target.value;
         let data = { ...this.state.data };
         data[name] = value;
+        //console.log(data, 'data is consoled')
     
         this.setState({ data });
-      }
+    }
     spinLoader = () =>{
         return(
           <div className="sweet-loading" style={{  paddingTop : `30vh`, paddingLeft : `50vh` }}>
@@ -117,8 +118,8 @@ export default class EditUser extends Component{
               />
         </div>
         )
-     }
-     onSubmit  =  (e) =>{
+    }
+    onSubmit  =  (e) =>{
         e.preventDefault();
         this.setState({ display: false});
 
@@ -140,7 +141,7 @@ export default class EditUser extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email && user_Role && user_Password && company_Id)
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/User/UpdateUser`;
+            let url = `http://216.117.149.42:5002/api/User/UpdateUser`;
             //console.log(data, 'data is logged');
 
             fetch(url,{
@@ -329,8 +330,9 @@ export default class EditUser extends Component{
                 <div className="col-md-2"></div>
             </div>
         )
-     }
+    }
     render(){
+        //console.log(this.state, 'state is consoled')
         return(
             <Layout>
                 {this.state.display ? this.EditUserPageUi() : this.spinLoader()}

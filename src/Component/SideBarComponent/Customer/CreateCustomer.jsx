@@ -44,10 +44,10 @@ export default class CreateCustomer extends Component{
         let value = e.target.value;
         let data = { ...this.state.data };
         data[name] = value;
-        console.log(data);
+        // console.log(data);
     
         this.setState({ data });
-      }
+    }
     onSubmit  =  (e) =>{
         e.preventDefault();
         this.setState({ display: false});
@@ -67,7 +67,7 @@ export default class CreateCustomer extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email)
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/Customer/CreateCustomer`;
+            let url = `http://216.117.149.42:5002/api/Customer/CreateCustomer`;
             console.log(data, 'data is logged');
 
             fetch(url,{

@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 
 export  const CustomerNoOfTickets =  (id) =>{
 
-        let url = `https://localhost:5001/api/Ticket/GetTicketByCustomer_Id?id=${id}`;
+        let url = `http://216.117.149.42:5002/api/Ticket/GetTicketByCustomer_Id?id=${id}`;
         let number ;
 
         fetch(url)

@@ -18,7 +18,7 @@ export default class Customers extends Component{
     };
 
     UNSAFE_componentWillMount(){
-        let url = `https://localhost:5001/api/Customer/GetAllCustomersService`
+        let url = `http://216.117.149.42:5002/api/Customer/GetAllCustomersService`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -38,7 +38,7 @@ export default class Customers extends Component{
                 );
     }
     addDataToState = (datarecived) => {
-        console.log(datarecived)
+        //console.log(datarecived)
         _.reverse(datarecived);
         this.setState({data:datarecived, loaded:true})
     }

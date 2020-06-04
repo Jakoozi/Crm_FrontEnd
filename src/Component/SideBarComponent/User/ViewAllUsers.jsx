@@ -19,7 +19,7 @@ export default class ViewAllUsers extends Component{
     };
 
     UNSAFE_componentWillMount(){
-        let url = `https://localhost:5001/api/User/GetAllUsersService`
+        let url = `http://216.117.149.42:5002/api/User/GetAllUsersService`
     
         fetch(url)
                 .then((response) =>  response.json())

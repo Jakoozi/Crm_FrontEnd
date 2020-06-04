@@ -26,7 +26,7 @@ export default class CompanyExtensionMethods extends Component{
     getCompany = (id) =>{
 
 
-        let url = `https://localhost:5001/api/Company/GetCompanyById/${id}`
+        let url = `http://216.117.149.42:5002/api/Company/GetCompanyById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())

@@ -39,7 +39,7 @@ export default class CreateTicketComponent extends Component{
         this.addUserDataToState(userData);
 
         //this methods fetches the customers from the server
-        let url = `https://localhost:5001/api/Customer/GetAllCustomersService`;
+        let url = `http://216.117.149.42:5002/api/Customer/GetAllCustomersService`;
 
         fetch(url)
         .then(response => response.json())
@@ -61,11 +61,13 @@ export default class CreateTicketComponent extends Component{
         //this method adds the gotten user data to state
         let {id} = userData;
         let {company_Id} = userData
+        
         if(userData.user_Role === 1){
             this.setState({id, userRole:userData.user_Role});
         }
         else if (userData.user_Role === 2){
             this.setState({id, data:{company_Id}, userRole:userData.user_Role});
+            console.log(userData.user_Role, company_Id, 'user role is logged')
         }
         
     }
@@ -75,7 +77,7 @@ export default class CreateTicketComponent extends Component{
     }
     componentDidMount(){
         //this methods fetches the companies from the server
-        let url = `https://localhost:5001/api/Company/GetAllCompaniesService`;
+        let url = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
 
         fetch(url)
         .then(response => response.json())
@@ -102,7 +104,7 @@ export default class CreateTicketComponent extends Component{
         let value = e.target.value;
         let data = { ...this.state.data };
         data[name] = value;
-        console.log(data,'handleclick is consoled')
+        //console.log(data,'handleclick is consoled')
       
         this.setState({ data });
     };
@@ -236,7 +238,7 @@ export default class CreateTicketComponent extends Component{
         {
             
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/Ticket/CreateTicket`;
+            let url = `http://216.117.149.42:5002/api/Ticket/CreateTicket`;
      
             fetch(url,{
                 method: 'post',
@@ -287,11 +289,10 @@ export default class CreateTicketComponent extends Component{
               />
         </div>
         )
-     }
+    }
     
-
     render(){
-        //console.log(this.state, 'state is consoled')
+        console.log(this.state, 'state is consoled')
         return(
             <Layout>
                 {this.state.display ? this.createTicketPageUi() : this.spinLoader()}

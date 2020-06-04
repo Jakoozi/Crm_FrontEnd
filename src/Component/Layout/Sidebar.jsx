@@ -137,11 +137,6 @@ class SidebarComponent extends React.Component {
               </li>  
             </ul>
           </li>
-          <li>
-            <Link to="SwalTest" className="nav-link">
-              Swal Test
-            </Link>
-          </li>
         </ul>
       </div>
     );

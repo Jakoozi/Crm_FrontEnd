@@ -31,7 +31,7 @@ export default class EditUser extends Component{
         this.addUserDataToState(userData);
 
         let id = JSON.parse(window.localStorage.getItem("companyId"));
-        let url = `https://localhost:5001/api/Company/GetCompanyById/${id}`
+        let url = `http://216.117.149.42:5002/api/Company/GetCompanyById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -87,8 +87,8 @@ export default class EditUser extends Component{
               />
         </div>
         )
-     }
-     onSubmit  =  (e) =>{
+    }
+    onSubmit  =  (e) =>{
         e.preventDefault();
         this.setState({ display: false});
 
@@ -105,7 +105,7 @@ export default class EditUser extends Component{
         if(company_Name && company_Description )
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/Company/UpdateCompany`;
+            let url = `http://216.117.149.42:5002/api/Company/UpdateCompany`;
             console.log(data, 'data is logged');
 
             fetch(url,{

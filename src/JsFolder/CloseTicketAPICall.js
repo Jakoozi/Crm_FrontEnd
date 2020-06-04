@@ -21,7 +21,7 @@ export default class CloseTicketAPICall extends Component{
         if(result.value){
           if(ticket_Status == 2){
             console.log(id,ticket_Status, 'id is logged in close ticket')
-            let url = `https://localhost:5001/api/Ticket/CloseTicket/${id}`;
+            let url = `http://216.117.149.42:5002/api/Ticket/CloseTicket/${id}`;
          
             fetch(url,{
               method: 'put',

@@ -37,7 +37,7 @@ export default class CreateUser extends Component{
 
     componentDidMount(){
         //this methods fetches the companies from the server
-        let url = `https://localhost:5001/api/Company/GetAllCompaniesService`;
+        let url = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
 
         fetch(url)
         .then(response => response.json())
@@ -81,7 +81,7 @@ export default class CreateUser extends Component{
         </div>
         )
      }
-     onSubmit  =  (e) =>{
+    onSubmit  =  (e) =>{
         e.preventDefault();
         this.setState({ display: false});
 
@@ -101,7 +101,7 @@ export default class CreateUser extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email && user_Role && user_Password && company_Id)
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/User/CreateUser`;
+            let url = `http://216.117.149.42:5002/api/User/CreateUser`;
 
             fetch(url,{
                 method: 'post',

@@ -59,7 +59,7 @@ export default class CreateCompany extends Component{
         if(company_Name && company_Description )
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/Company/CreateCompany`;
+            let url = `http://216.117.149.42:5002/api/Company/CreateCompany`;
 
             fetch(url,{
                 method: 'post',

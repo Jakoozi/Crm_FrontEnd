@@ -33,7 +33,7 @@ export default class ViewTicket extends Component{
 
     UNSAFE_componentWillMount(){
         let id = JSON.parse(window.localStorage.getItem("ticketId"));
-        let url = `https://localhost:5001/api/Ticket/GetTicketById/${id}`
+        let url = `http://216.117.149.42:5002/api/Ticket/GetTicketById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -111,7 +111,7 @@ export default class ViewTicket extends Component{
         if(id && company_Id && resolvedby_Entityid && staff_Response)
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/Ticket/ResolveTicket`;
+            let url = `http://216.117.149.42:5002/api/Ticket/ResolveTicket`;
 
             fetch(url,{
                 method: 'put',

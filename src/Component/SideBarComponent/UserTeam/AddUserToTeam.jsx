@@ -41,7 +41,7 @@ export default class AddUserToTeam extends Component{
     UNSAFE_componentWillMount (){
        
         //this methods fetches the companies from the server
-        let companyUrl = `https://localhost:5001/api/Company/GetAllCompaniesService`;
+        let companyUrl = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
         
         fetch(companyUrl)
         .then(response => response.json())
@@ -61,7 +61,7 @@ export default class AddUserToTeam extends Component{
         } );
 
         //this methods fetches the Users from the server
-        let userUrl = `https://localhost:5001/api/User/GetAllUsersService`;
+        let userUrl = `http://216.117.149.42:5002/api/User/GetAllUsersService`;
         
         fetch(userUrl)
         .then(response => response.json())
@@ -81,7 +81,7 @@ export default class AddUserToTeam extends Component{
         } );
 
         //this method adds teams to the state
-        let teamUrl = `https://localhost:5001/api/Team/GetAllTeams`;
+        let teamUrl = `http://216.117.149.42:5002/api/Team/GetAllTeams`;
         
         fetch(teamUrl)
         .then(response => response.json())
@@ -124,7 +124,7 @@ export default class AddUserToTeam extends Component{
         if(company_Id && team_Id && user_Id)
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/UserTeam/AddUserToTeam`;
+            let url = `http://216.117.149.42:5002/api/UserTeam/AddUserToTeam`;
             //console.log(data, 'data is logged');
 
             fetch(url,{

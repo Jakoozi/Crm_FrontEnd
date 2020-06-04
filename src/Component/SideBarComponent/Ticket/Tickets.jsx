@@ -23,7 +23,7 @@ export default class Tickets extends Component{
         console.log(company_Id, user_Role,'user role and company id are consoled')
 
         if(user_Role === 1){
-            let url = `https://localhost:5001/api/Ticket/GetAllTickets`;
+            let url = `http://216.117.149.42:5002/api/Ticket/GetAllTickets`;
 
             fetch(url)
             .then((response) =>  response.json())
@@ -42,7 +42,7 @@ export default class Tickets extends Component{
             });
         }
         else if(user_Role === 2){
-            let url = `https://localhost:5001/api/Ticket/GetTicketByCompany_Id?id=${company_Id}`;
+            let url = `http://216.117.149.42:5002/api/Ticket/GetTicketByCompany_Id?id=${company_Id}`;
 
             fetch(url)
             .then((response) =>  response.json())

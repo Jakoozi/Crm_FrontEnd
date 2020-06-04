@@ -32,7 +32,7 @@ export default class EditCustomer extends Component{
 
     UNSAFE_componentWillMount(){
         let id = JSON.parse(window.localStorage.getItem("customerId"));
-        let url = `https://localhost:5001/api/Customer/GetCustomerById/${id}`
+        let url = `http://216.117.149.42:5002/api/Customer/GetCustomerById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -97,7 +97,7 @@ export default class EditCustomer extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email)
         {
             let data = JSON.stringify(data1);
-            let url = `https://localhost:5001/api/Customer/UpdateCustomer`;
+            let url = `http://216.117.149.42:5002/api/Customer/UpdateCustomer`;
 
             fetch(url,{
                 method: 'put',
