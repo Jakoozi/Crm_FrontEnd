@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Swal from "sweetalert2";
+import BaseAPI from '../JsFolder/BaseAPI';
 
 
 export default class CompanyExtensionMethods extends Component{
 
     state = {
-        company:{}
+        company:{},
+        baseAPI : new BaseAPI()
     }
 
     companyOptionReturner = (companies, companyLoaded) =>{
@@ -26,7 +28,7 @@ export default class CompanyExtensionMethods extends Component{
     getCompany = (id) =>{
 
 
-        let url = `http://216.117.149.42:5002/api/Company/GetCompanyById/${id}`
+        let url = `${this.state.baseApi.baseEndPoint()}/Company/GetCompanyById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())

@@ -5,7 +5,7 @@ import  Moment from 'react-moment';
 import { Link } from "react-router-dom";
 import _ from 'lodash';
 import { MDBDataTable } from 'mdbreact';
-
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 
@@ -16,10 +16,11 @@ export default class ViewAllUsers extends Component{
         ],
         company:[],
         loaded:false,
+        baseApi : new BaseAPI()
     };
 
     UNSAFE_componentWillMount(){
-        let url = `http://216.117.149.42:5002/api/User/GetAllUsersService`
+        let url = `${this.state.baseApi.baseEndPoint()}/User/GetAllUsersService`
     
         fetch(url)
                 .then((response) =>  response.json())

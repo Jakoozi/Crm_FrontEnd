@@ -3,6 +3,7 @@ import { css } from "@emotion/core";
 import { PacmanLoader	 } from 'react-spinners';
 import Swal from "sweetalert2";
 import { responseSender } from '../../JsFolder/responseSender';
+import BaseAPI from '../../JsFolder/BaseAPI'
 
 
 const override = css`
@@ -23,6 +24,7 @@ export default class Login extends Component {
         loading: true,
         display: true,
         user_Role:'',
+        baseAPI : new BaseAPI()
       };
 
     handleInputChange = e => {
@@ -121,7 +123,8 @@ export default class Login extends Component {
         const { email, User_Password } = this.state.data;
         if (email && User_Password) {
           const data = JSON.stringify(this.state.data);
-          let url = `https://localhost:5001/api/User/AgentLogin`;
+          let url = `${this.state.baseAPI.baseEndPoint()}/User/AgentLogin`;
+
     
           fetch(url, {
             method: "post",

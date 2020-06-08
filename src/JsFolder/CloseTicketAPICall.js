@@ -4,8 +4,13 @@ import  Moment from 'react-moment';
 import { Link } from "react-router-dom";
 import _ from 'lodash';
 import { responseSender } from './responseSender';
+import BaseAPI from '../JsFolder/BaseAPI';
 
 export default class CloseTicketAPICall extends Component{
+
+  state={
+    baseAPI : new BaseAPI()
+  }
 
   closeTicket = ( id, ticket_Status) =>{
       
@@ -21,7 +26,7 @@ export default class CloseTicketAPICall extends Component{
         if(result.value){
           if(ticket_Status == 2){
             console.log(id,ticket_Status, 'id is logged in close ticket')
-            let url = `http://216.117.149.42:5002/api/Ticket/CloseTicket/${id}`;
+            let url = `${this.state.baseAPI.baseEndPoint()}/Ticket/CloseTicket/${id}`;
          
             fetch(url,{
               method: 'put',

@@ -5,6 +5,7 @@ import { css } from "@emotion/core";
 import { BeatLoader	 } from 'react-spinners';
 import { responseSender } from '../../../JsFolder/responseSender';
 import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 const override = css`
@@ -29,7 +30,8 @@ export default class CreateTicketComponent extends Component{
         id:"",
         display:true,
         userRole:"",
-        companyExtensionMethods : new CompanyExtensionMethods()
+        companyExtensionMethods : new CompanyExtensionMethods(),
+        baseApi : new BaseAPI()
     }
     
     UNSAFE_componentWillMount(){
@@ -39,7 +41,7 @@ export default class CreateTicketComponent extends Component{
         this.addUserDataToState(userData);
 
         //this methods fetches the customers from the server
-        let url = `http://216.117.149.42:5002/api/Customer/GetAllCustomersService`;
+        let url = `${this.state.baseApi.baseEndPoint()}/Customer/GetAllCustomersService`;
 
         fetch(url)
         .then(response => response.json())
@@ -77,7 +79,7 @@ export default class CreateTicketComponent extends Component{
     }
     componentDidMount(){
         //this methods fetches the companies from the server
-        let url = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
+        let url = `${this.state.baseApi.baseEndPoint()}/Company/GetAllCompaniesService`;
 
         fetch(url)
         .then(response => response.json())
@@ -238,7 +240,7 @@ export default class CreateTicketComponent extends Component{
         {
             
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/Ticket/CreateTicket`;
+            let url = `${this.state.baseApi.baseEndPoint()}/Ticket/CreateTicket`;
      
             fetch(url,{
                 method: 'post',
@@ -292,7 +294,7 @@ export default class CreateTicketComponent extends Component{
     }
     
     render(){
-        console.log(this.state, 'state is consoled')
+        //console.log(this.state, 'state is consoled')
         return(
             <Layout>
                 {this.state.display ? this.createTicketPageUi() : this.spinLoader()}

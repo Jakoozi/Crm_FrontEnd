@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import _ from 'lodash';
 import {CustomerNoOfTickets} from '../../../JsFolder/CustomerNoOfTickets';
 import { MDBDataTable } from 'mdbreact';
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 export default class ViewAllTeams extends Component{
@@ -13,11 +14,12 @@ export default class ViewAllTeams extends Component{
         data:[
     
         ],
-        loaded:false
+        loaded:false,
+        baseApi : new BaseAPI()
     };
 
     UNSAFE_componentWillMount(){
-        let url = `http://216.117.149.42:5002/api/Team/GetAllTeams`
+        let url = `${this.state.baseApi.baseEndPoint()}/Team/GetAllTeams`
     
         fetch(url)
                 .then((response) =>  response.json())

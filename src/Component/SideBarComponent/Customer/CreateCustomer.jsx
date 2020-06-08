@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { css } from "@emotion/core";
 import { BeatLoader	 } from 'react-spinners';
 import { responseSender } from '../../../JsFolder/responseSender';
+import BaseAPI from '../../../JsFolder/BaseAPI'
 
 
 const override = css`
@@ -25,7 +26,8 @@ export default class CreateCustomer extends Component{
         },
         company_Id:"",
         createdby_Userid:"",
-        display:true
+        display:true,
+        baseApi : new BaseAPI()
     }
     UNSAFE_componentWillMount (){
         //this gets the stored user data from the browser
@@ -67,7 +69,7 @@ export default class CreateCustomer extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email)
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/Customer/CreateCustomer`;
+            let url = `${this.state.baseApi.baseEndPoint()}/Customer/CreateCustomer`;
             console.log(data, 'data is logged');
 
             fetch(url,{
@@ -227,7 +229,7 @@ export default class CreateCustomer extends Component{
         )
      }
     render(){
-        console.log(this.state, 'state is consoled in add data to state');
+        //console.log(this.state.baseApi.baseEndPoint(), 'baseendpoint is consoled in add data to state');
         return(
             <Layout>
                 {this.state.display ? this.createCustomerPageUi() : this.spinLoader()}

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import _ from 'lodash';
 import {CustomerNoOfTickets} from '../../../JsFolder/CustomerNoOfTickets';
 import { MDBDataTable } from 'mdbreact';
+import BaseAPI from '../../../JsFolder/BaseAPI'
 
 export default class Customers extends Component{
     state = {
@@ -13,12 +14,13 @@ export default class Customers extends Component{
     
         ],
         loaded:false, 
-        noOfTicket:""
+        noOfTicket:"",
+        baseApi : new BaseAPI()
 
     };
 
     UNSAFE_componentWillMount(){
-        let url = `http://216.117.149.42:5002/api/Customer/GetAllCustomersService`
+        let url = `${this.state.baseApi.baseEndPoint()}/Customer/GetAllCustomersService`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -60,6 +62,7 @@ export default class Customers extends Component{
     //this method is currently not in use because i cant return the legthn property of ech srrsy returned
     render(){
 
+        //console.log(this.state.baseApi.baseEndPoint(), 'base api is logged')
         let data = this.state.data;
         let loaded = this.state.loaded;
         let all = data.map(data =>{

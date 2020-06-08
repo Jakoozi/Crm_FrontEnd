@@ -6,6 +6,7 @@ import { BeatLoader	 } from 'react-spinners';
 import  Moment from 'react-moment';
 import { responseSender } from '../../../JsFolder/responseSender';
 import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
+import BaseAPI from '../../../JsFolder/BaseAPI'
 
 
 const override = css`
@@ -24,6 +25,7 @@ export default class EditUser extends Component{
         createdby_Userid:"",
         id:"",
         display:true,
+        baseApi : new BaseAPI()
     }
 
     UNSAFE_componentWillMount (){
@@ -31,7 +33,7 @@ export default class EditUser extends Component{
         this.addUserDataToState(userData);
 
         let id = JSON.parse(window.localStorage.getItem("companyId"));
-        let url = `http://216.117.149.42:5002/api/Company/GetCompanyById/${id}`
+        let url = `${this.state.baseApi.baseEndPoint()}/Company/GetCompanyById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -105,7 +107,7 @@ export default class EditUser extends Component{
         if(company_Name && company_Description )
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/Company/UpdateCompany`;
+            let url = `${this.state.baseApi.baseEndPoint()}/Company/UpdateCompany`;
             console.log(data, 'data is logged');
 
             fetch(url,{
@@ -206,7 +208,7 @@ export default class EditUser extends Component{
                                 <div className="col-md-8">
                                     <div class="form-buttons-w">
                                         <button class="btn btn-primary" type="submit">
-                                            Create Company
+                                            Update Company
                                         </button>
                                     </div>
                                 </div>
@@ -219,7 +221,7 @@ export default class EditUser extends Component{
         )
      }
     render(){
-        console.log(this.state, 'state is consoled in add data to state');
+        console.log(this.state.baseApi.baseEndPoint(), 'state is consoled in add data to state');
         return(
             <Layout>
                 {this.state.display ? this.EditCompanyPageUi() : this.spinLoader()}

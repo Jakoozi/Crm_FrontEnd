@@ -5,6 +5,7 @@ import { css } from "@emotion/core";
 import { BeatLoader	 } from 'react-spinners';
 import { responseSender } from '../../../JsFolder/responseSender';
 import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 const override = css`
@@ -32,12 +33,13 @@ export default class CreateUser extends Component{
         createdby_Userid:"",
         display:true,
         companyLoaded:false,
-        companyExtensionMethods : new CompanyExtensionMethods()
+        companyExtensionMethods : new CompanyExtensionMethods(),
+        baseApi : new BaseAPI()
     }
 
     componentDidMount(){
         //this methods fetches the companies from the server
-        let url = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
+        let url = `${this.state.baseApi.baseEndPoint()}/Company/GetAllCompaniesService`;
 
         fetch(url)
         .then(response => response.json())
@@ -101,7 +103,7 @@ export default class CreateUser extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email && user_Role && user_Password && company_Id)
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/User/CreateUser`;
+            let url = `${this.state.baseApi.baseEndPoint()}/User/CreateUser`;
 
             fetch(url,{
                 method: 'post',

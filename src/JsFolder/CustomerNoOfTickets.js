@@ -1,8 +1,10 @@
 import Swal from 'sweetalert2';
+import BaseAPI from '../JsFolder/BaseAPI';
 
 export  const CustomerNoOfTickets =  (id) =>{
+        let baseAPI = new BaseAPI();
 
-        let url = `http://216.117.149.42:5002/api/Ticket/GetTicketByCustomer_Id?id=${id}`;
+        let url = `${baseAPI.baseEndPoint()}/Ticket/GetTicketByCustomer_Id?id=${id}`;
         let number ;
 
         fetch(url)

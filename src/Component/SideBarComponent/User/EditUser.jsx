@@ -6,6 +6,7 @@ import { BeatLoader	 } from 'react-spinners';
 import  Moment from 'react-moment';
 import { responseSender } from '../../../JsFolder/responseSender';
 import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 const override = css`
@@ -32,12 +33,14 @@ export default class EditUser extends Component{
         ],
         id:"",
         display:true,
-        companyExtensionMethods : new CompanyExtensionMethods()
+        companyExtensionMethods : new CompanyExtensionMethods(),
+        baseApi : new BaseAPI()
     }
 
     UNSAFE_componentWillMount (){
         let id = JSON.parse(window.localStorage.getItem("toBeEditedUser_Id"));
-        let url = `http://216.117.149.42:5002/api/User/GetUserById/${id}`
+        let url = `${this.state.baseApi.baseEndPoint()}/User/GetUserById/${id}`
+        console.log(url, 'url is loged')
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -75,7 +78,7 @@ export default class EditUser extends Component{
     }
     componentDidMount(){
         //this methods fetches the companies from the server
-        let url = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
+        let url = `${this.state.baseApi.baseEndPoint()}/Company/GetAllCompaniesService`;
 
         fetch(url)
         .then(response => response.json())
@@ -141,8 +144,8 @@ export default class EditUser extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email && user_Role && user_Password && company_Id)
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/User/UpdateUser`;
-            //console.log(data, 'data is logged');
+            let url = `${this.state.baseApi.baseEndPoint()}/User/UpdateUser`;
+            console.log(url, 'url is logged');
 
             fetch(url,{
                 method: 'put',

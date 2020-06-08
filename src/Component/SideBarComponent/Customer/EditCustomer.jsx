@@ -5,6 +5,7 @@ import { css } from "@emotion/core";
 import { BeatLoader	 } from 'react-spinners';
 import  Moment from 'react-moment';
 import { responseSender } from '../../../JsFolder/responseSender';
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 const override = css`
@@ -26,13 +27,13 @@ export default class EditCustomer extends Component{
         id:"", 
         company_Id:"",
         updatedby_Userid:"",
-       
-        display:true
+        display:true,
+        baseApi : new BaseAPI()
     }
 
     UNSAFE_componentWillMount(){
         let id = JSON.parse(window.localStorage.getItem("customerId"));
-        let url = `http://216.117.149.42:5002/api/Customer/GetCustomerById/${id}`
+        let url = `${this.state.baseApi.baseEndPoint()}/Customer/GetCustomerById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -97,7 +98,7 @@ export default class EditCustomer extends Component{
         if(first_Name && last_Name && phonenumber && xendCode && email)
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/Customer/UpdateCustomer`;
+            let url = `${this.state.baseApi.baseEndPoint()}/Customer/UpdateCustomer`;
 
             fetch(url,{
                 method: 'put',
@@ -236,6 +237,8 @@ export default class EditCustomer extends Component{
         )
     }
     render(){
+
+        //console.log(this.state.baseApi.baseEndPoint(), `base api`)
         return(
             <Layout>
                 {this.state.display ? this.viewCustomerPageUi() : this.spinLoader()}

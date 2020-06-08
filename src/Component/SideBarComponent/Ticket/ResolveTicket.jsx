@@ -5,6 +5,7 @@ import { css } from "@emotion/core";
 import { BeatLoader	 } from 'react-spinners';
 import  Moment from 'react-moment';
 import { responseSender } from '../../../JsFolder/responseSender';
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 const override = css`
@@ -28,12 +29,13 @@ export default class ViewTicket extends Component{
         staff_Response:"",
         customers:[
         ],
-        display:true
+        display : true,
+        baseApi : new BaseAPI()
     }
 
     UNSAFE_componentWillMount(){
         let id = JSON.parse(window.localStorage.getItem("ticketId"));
-        let url = `http://216.117.149.42:5002/api/Ticket/GetTicketById/${id}`
+        let url = `${this.state.baseApi.baseEndPoint()}/Ticket/GetTicketById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -111,7 +113,8 @@ export default class ViewTicket extends Component{
         if(id && company_Id && resolvedby_Entityid && staff_Response)
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/Ticket/ResolveTicket`;
+            let url = `${this.state.baseApi.baseEndPoint()}/Ticket/ResolveTicket`;
+            console.log(data, 'data is consoled')
 
             fetch(url,{
                 method: 'put',

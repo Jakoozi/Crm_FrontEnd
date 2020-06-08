@@ -6,6 +6,7 @@ import { BeatLoader	 } from 'react-spinners';
 import  Moment from 'react-moment';
 import { responseSender } from '../../../JsFolder/responseSender';
 import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 
 const override = css`
@@ -28,7 +29,8 @@ export default class EditTeam extends Component{
         id:"",
         companyLoaded:false,
         display:true,
-        companyExtensionMethods : new CompanyExtensionMethods()
+        companyExtensionMethods : new CompanyExtensionMethods(),
+        baseApi : new BaseAPI()
     }
 
     UNSAFE_componentWillMount (){
@@ -36,7 +38,7 @@ export default class EditTeam extends Component{
         this.addUserDataToState(userData);
 
         let id = JSON.parse(window.localStorage.getItem("TeamId"));
-        let url = `http://216.117.149.42:5002/api/Team/GetTeamById/${id}`
+        let url = `${this.state.baseApi.baseEndPoint()}/Team/GetTeamById/${id}`
     
         fetch(url)
                 .then((response) =>  response.json())
@@ -56,7 +58,7 @@ export default class EditTeam extends Component{
                 );
 
         //this methods fetches the companies from the server
-        let companyUrl = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
+        let companyUrl = `${this.state.baseApi.baseEndPoint()}/Company/GetAllCompaniesService`;
 
         fetch(companyUrl)
         .then(response => response.json())
@@ -133,7 +135,7 @@ export default class EditTeam extends Component{
         if(team_Name && team_Description && company_Id)
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/Team/UpdateTeam`;
+            let url = `${this.state.baseApi.baseEndPoint()}/Team/UpdateTeam`;
             console.log(data, 'data is logged');
 
             fetch(url,{

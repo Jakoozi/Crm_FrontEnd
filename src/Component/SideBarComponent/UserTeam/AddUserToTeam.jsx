@@ -6,7 +6,8 @@ import { BeatLoader	 } from 'react-spinners';
 import { responseSender } from '../../../JsFolder/responseSender';
 import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
 import UserExtensionMethod from "../../../JsFolder/UserExtensionMethod";
-import TeamExtensionMethod from "../../../JsFolder/TeamExtensionMethod"
+import TeamExtensionMethod from "../../../JsFolder/TeamExtensionMethod";
+import BaseAPI from '../../../JsFolder/BaseAPI';
 
 const override = css`
   display: block;
@@ -35,13 +36,14 @@ export default class AddUserToTeam extends Component{
         teamLoaded:false,
         companyExtensionMethods : new CompanyExtensionMethods(),
         userExtensionMethod : new UserExtensionMethod(),
-        teamExtensionMethod : new TeamExtensionMethod()
+        teamExtensionMethod : new TeamExtensionMethod(),
+        baseApi : new BaseAPI()
     }
 
     UNSAFE_componentWillMount (){
        
         //this methods fetches the companies from the server
-        let companyUrl = `http://216.117.149.42:5002/api/Company/GetAllCompaniesService`;
+        let companyUrl = `${this.state.baseApi.baseEndPoint()}/Company/GetAllCompaniesService`;
         
         fetch(companyUrl)
         .then(response => response.json())
@@ -61,7 +63,7 @@ export default class AddUserToTeam extends Component{
         } );
 
         //this methods fetches the Users from the server
-        let userUrl = `http://216.117.149.42:5002/api/User/GetAllUsersService`;
+        let userUrl = `${this.state.baseApi.baseEndPoint()}/User/GetAllUsersService`;
         
         fetch(userUrl)
         .then(response => response.json())
@@ -81,7 +83,7 @@ export default class AddUserToTeam extends Component{
         } );
 
         //this method adds teams to the state
-        let teamUrl = `http://216.117.149.42:5002/api/Team/GetAllTeams`;
+        let teamUrl = `${this.state.baseApi.baseEndPoint()}/Team/GetAllTeams`;
         
         fetch(teamUrl)
         .then(response => response.json())
@@ -124,7 +126,7 @@ export default class AddUserToTeam extends Component{
         if(company_Id && team_Id && user_Id)
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/UserTeam/AddUserToTeam`;
+            let url = `${this.state.baseApi.baseEndPoint()}/UserTeam/AddUserToTeam`;
             //console.log(data, 'data is logged');
 
             fetch(url,{

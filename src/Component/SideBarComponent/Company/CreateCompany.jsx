@@ -5,6 +5,7 @@ import { css } from "@emotion/core";
 import { BeatLoader	 } from 'react-spinners';
 import { responseSender } from '../../../JsFolder/responseSender';
 import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
+import BaseAPI from '../../../JsFolder/BaseAPI'
 
 const override = css`
   display: block;
@@ -22,6 +23,7 @@ export default class CreateCompany extends Component{
         },
         createdby_Userid:"",
         display:true,
+        baseApi : new BaseAPI()
     }
 
 
@@ -59,7 +61,8 @@ export default class CreateCompany extends Component{
         if(company_Name && company_Description )
         {
             let data = JSON.stringify(data1);
-            let url = `http://216.117.149.42:5002/api/Company/CreateCompany`;
+           
+            let url = `${this.state.baseApi.baseEndPoint()}/Company/CreateCompany`;
 
             fetch(url,{
                 method: 'post',
@@ -184,7 +187,8 @@ export default class CreateCompany extends Component{
     }
 
     render(){
-        console.log(this.state, 'state is consoled in add data to state');
+        //console.log(this.state.baseApi.baseEndPoint(), 'base endpoimt')
+        //console.log(this.state, 'state is consoled in add data to state');
         return(
             <Layout>
                 {this.state.display ? this.createCompanyPageUi() : this.spinLoader()}
