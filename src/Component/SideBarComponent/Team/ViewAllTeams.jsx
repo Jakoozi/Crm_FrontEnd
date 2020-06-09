@@ -66,6 +66,7 @@ export default class ViewAllTeams extends Component{
                 {
                     team_Name:  data.team_Name,
                     team_Description: data.team_Description,
+                    company_Name : data.company_Name,
                     view_Team:this.handleViewTTeam(data.id),
                 }
             );
@@ -83,6 +84,12 @@ export default class ViewAllTeams extends Component{
                 field: 'team_Description',
                 sort: 'asc',
                
+              },
+              {
+                label: 'Company Name',
+                field: 'company_Name',
+                sort: 'asc',
+             
               },
               {
                 label: 'View Team',

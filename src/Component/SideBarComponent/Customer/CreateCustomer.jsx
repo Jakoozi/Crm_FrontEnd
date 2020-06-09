@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { css } from "@emotion/core";
 import { BeatLoader	 } from 'react-spinners';
 import { responseSender } from '../../../JsFolder/responseSender';
+import CompanyExtensionMethods   from '../../../JsFolder/CompanyExtensionMethods';
 import BaseAPI from '../../../JsFolder/BaseAPI'
 
 
@@ -22,23 +23,58 @@ export default class CreateCustomer extends Component{
             last_Name:"",  
             phonenumber:"",
             xendCode:"",
-            email:""    
+            email:"",
+            company_Id:"",    
         },
-        company_Id:"",
+        companies:[
+        ],
+        
         createdby_Userid:"",
         display:true,
+        userRole:"",
+        companyLoaded:false,
+        companyExtensionMethods : new CompanyExtensionMethods(),
         baseApi : new BaseAPI()
     }
     UNSAFE_componentWillMount (){
         //this gets the stored user data from the browser
         let userData = JSON.parse(window.localStorage.getItem("userData"));
         this.addUserDataToState(userData);
+
+        //this fethces all the companies from the data base
+        let url = `${this.state.baseApi.baseEndPoint()}/Company/GetAllCompaniesService`;
+
+        fetch(url)
+        .then(response => response.json())
+        .then(json => {  
+            this.addCompaniesToState(json.data)
+            this.setState({companyLoaded:true})
+        }) 
+        .catch(error => { 
+            console.log(error)
+            Swal.fire(
+                {
+                  icon: 'error',
+                  title:'please!!',
+                  text: 'Check your internet connection'
+                }
+              )
+        } );
+    }
+    addCompaniesToState = (companies) =>{
+        this.setState({companies})
     }
     addUserDataToState = (userData) =>{
         //this method adds the gotten user data to state
         let {company_Id} = userData;
         let createdby_Userid = userData.id;
-       this.setState({createdby_Userid, company_Id});
+
+        if(userData.user_Role === 1){
+            this.setState({createdby_Userid, userRole:userData.user_Role});
+        }
+        else if (userData.user_Role === 2){
+            this.setState({createdby_Userid, data:{company_Id}, userRole:userData.user_Role});
+        }
       
     }
     handleInputChange = e => {
@@ -50,12 +86,37 @@ export default class CreateCustomer extends Component{
     
         this.setState({ data });
     }
+    companySelctorReturner = () =>{
+        let {company_Id} = this.state.data
+        //console.log(this.state.userRole, 'create Ticket state');
+        if(this.state.userRole === 1){
+            return(
+                <div className="form-group">
+                    <label htmlFor="company"><h5> Company:</h5></label>
+                    <select 
+                        name="company_Id"
+                        onChange={this.handleInputChange}
+                        class="form-control "
+                        value={company_Id}
+                    >
+                    <option hidden>selecte company...</option>
+                    {this.state.companyExtensionMethods.companyOptionReturner(this.state.companies, this.state.companyLoaded)}
+                    </select>
+                </div>
+            )
+        }
+        else if (this.state.userRole === 2){
+            return(
+                null
+            )
+        }
+    }
     onSubmit  =  (e) =>{
         e.preventDefault();
         this.setState({ display: false});
 
-        let {first_Name, last_Name, phonenumber, xendCode, email} = this.state.data;
-        let {company_Id, createdby_Userid} = this.state;
+        let {first_Name, last_Name, phonenumber, xendCode, email, company_Id} = this.state.data;
+        let { createdby_Userid} = this.state;
         let data1 = {
             first_Name,
             last_Name,
@@ -186,29 +247,30 @@ export default class CreateCustomer extends Component{
                                 </div>
                             </div>
                         </div>
-                        
-                        <div className="form-group">
-                            <label htmlFor="details"><h5>Email Address:</h5></label>
-                            <input
-                                onChange={this.handleInputChange}
-                                type="email"
-                                name="email"
-                                className="form-control "
-                                placeholder="Enter.."
-                                value={email}
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="details"><h5>Email Address:</h5></label>
+                                    <input
+                                        onChange={this.handleInputChange}
+                                        type="email"
+                                        name="email"
+                                        className="form-control "
+                                        placeholder="Enter.."
+                                        value={email}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                {this.companySelctorReturner()}
+                            </div>
                         </div>
+                        
                         <div class="form-buttons-w">
                             <button class="btn btn-primary" type="submit">
                                 Create Customer
                             </button>
                         </div>
-                            {/* <button
-                                type="submit"
-                                className="btn btn-light  btn-success"
-                            >
-                                <h5>Create Ticket</h5>
-                            </button> */}
                     </form>
                 </div>
                 <div className="col-md-2"></div>
@@ -229,7 +291,7 @@ export default class CreateCustomer extends Component{
         )
      }
     render(){
-        //console.log(this.state.baseApi.baseEndPoint(), 'baseendpoint is consoled in add data to state');
+        console.log(this.state, 'baseendpoint is consoled in add data to state');
         return(
             <Layout>
                 {this.state.display ? this.createCustomerPageUi() : this.spinLoader()}

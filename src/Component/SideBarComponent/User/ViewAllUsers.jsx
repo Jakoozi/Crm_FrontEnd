@@ -40,6 +40,7 @@ export default class ViewAllUsers extends Component{
                 );
     }
     addDataToState = (datarecived) => {
+        //console.log(datarecived, 'users are logged')
         _.reverse(datarecived);
         this.setState({data:datarecived, loaded:true})
     }
@@ -82,6 +83,7 @@ export default class ViewAllUsers extends Component{
                     email: data.email,
                     phonenumber: data.phonenumber,
                     xendCode: data.xendCode,
+                    company_Name : data.company_Name,
                     view_User:this.handleViewUser(data.id),
                 }
             );
@@ -120,6 +122,12 @@ export default class ViewAllUsers extends Component{
               {
                 label: 'Xend Code',
                 field: 'xendCode',
+                sort: 'asc',
+             
+              },
+              {
+                label: 'Company Name',
+                field: 'company_Name',
                 sort: 'asc',
              
               },

@@ -73,6 +73,7 @@ export default class Customers extends Component{
                     email: data.email,
                     phonenumber: data.phonenumber,
                     xendCode: data.xendCode,
+                    company_Name: data.company_Name,
                     view_Customer:this.handleViewCutomer(data.id),
                 }
             );
@@ -105,6 +106,12 @@ export default class Customers extends Component{
               {
                 label: 'Xend Code',
                 field: 'xendCode',
+                sort: 'asc',
+             
+              },
+              {
+                label: 'Company Name',
+                field: 'company_Name',
                 sort: 'asc',
              
               },

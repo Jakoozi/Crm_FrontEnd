@@ -123,6 +123,7 @@ export default class Tickets extends Component{
                     {
                         ticket_Subject:data.ticket_Subject,
                         ticket_Details:data.ticket_Details,
+                        company_Name : data.company_Name,
                         ticket_Status:this.ticketStatusSetter(data.ticket_Status),
                         createdAt:this.timeFormater(data.createdAt),
                         updatedAt:this.timeFormater(data.updatedAt),
@@ -152,6 +153,12 @@ export default class Tickets extends Component{
                 label: 'Ticket Status',
                 field: 'ticket_Status',
                 sort: 'asc',
+              },
+              {
+                label: 'Company Name',
+                field: 'company_Name',
+                sort: 'asc',
+             
               },
               {
                 label: 'Created Date',

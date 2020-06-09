@@ -114,7 +114,7 @@ export default class CreateTicketComponent extends Component{
         let {customers} = this.state;
         let all = customers.map((customer) =>{
             return(
-                <option value={customer.id}>{customer.first_Name} {customer.last_Name}</option>
+            <option value={customer.id}>{customer.first_Name} {customer.last_Name} ({customer.company_Name})</option>
             );
           });
           return all;
