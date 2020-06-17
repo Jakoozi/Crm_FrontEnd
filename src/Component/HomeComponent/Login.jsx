@@ -34,7 +34,7 @@ export default class Login extends Component {
         data[name] = value;
     
         this.setState({ data });
-        console.log(this.state);
+        //console.log(this.state);
     };
     loginFormUi = () =>{
         const { email, User_Password } = this.state.data;
@@ -123,8 +123,10 @@ export default class Login extends Component {
         const { email, User_Password } = this.state.data;
         if (email && User_Password) {
           const data = JSON.stringify(this.state.data);
-          let url = `${this.state.baseAPI.baseEndPoint()}/User/AgentLogin`;
+          console.log(data, 'data is consoled')
 
+          let url = `${this.state.baseAPI.baseEndPoint()}/User/AgentLogin`;
+          
     
           fetch(url, {
             method: "post",

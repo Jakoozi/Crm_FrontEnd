@@ -25,11 +25,11 @@ export default class CloseTicketAPICall extends Component{
     .then((result) => {
         if(result.value){
           if(ticket_Status == 2){
-            console.log(id,ticket_Status, 'id is logged in close ticket')
+            //console.log(id,ticket_Status, 'id is logged in close ticket')
             let url = `${this.state.baseAPI.baseEndPoint()}/Ticket/CloseTicket/${id}`;
          
             fetch(url,{
-              method: 'put',
+              method: 'post',
               headers:{
                 'Content-Type': 'application/json'
               }

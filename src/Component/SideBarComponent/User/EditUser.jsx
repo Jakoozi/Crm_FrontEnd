@@ -148,7 +148,7 @@ export default class EditUser extends Component{
             console.log(url, 'url is logged');
 
             fetch(url,{
-                method: 'put',
+                method: 'post',
                 body: data,
                 headers:{
                   'Content-Type': 'application/json'

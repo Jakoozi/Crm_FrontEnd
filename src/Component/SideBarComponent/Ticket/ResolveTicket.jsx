@@ -117,7 +117,7 @@ export default class ViewTicket extends Component{
             console.log(data, 'data is consoled')
 
             fetch(url,{
-                method: 'put',
+                method: 'post',
                 body: data,
                 headers:{
                   'Content-Type': 'application/json'

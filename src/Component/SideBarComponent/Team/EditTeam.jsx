@@ -139,7 +139,7 @@ export default class EditTeam extends Component{
             console.log(data, 'data is logged');
 
             fetch(url,{
-                method: 'put',
+                method: 'post',
                 body: data,
                 headers:{
                   'Content-Type': 'application/json'

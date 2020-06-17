@@ -101,7 +101,7 @@ export default class EditCustomer extends Component{
             let url = `${this.state.baseApi.baseEndPoint()}/Customer/UpdateCustomer`;
 
             fetch(url,{
-                method: 'put',
+                method: 'post',
                 body: data,
                 headers:{
                   'Content-Type': 'application/json'
