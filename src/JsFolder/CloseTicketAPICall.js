@@ -9,12 +9,13 @@ import BaseAPI from '../JsFolder/BaseAPI';
 export default class CloseTicketAPICall extends Component{
 
   state={
-    baseAPI : new BaseAPI()
+    baseAPI : new BaseAPI(),
+    closeTicketReturnVariable: "",
   }
 
-  closeTicket = ( id, ticket_Status) =>{
+  closeTicket = async ( id, ticket_Status) =>{
       
-    Swal.fire({
+    let swalResponse = await Swal.fire({
         title:` Are you sure?`,
         text: 'You Want To Close This Ticket!',
         icon:"question",
@@ -22,13 +23,37 @@ export default class CloseTicketAPICall extends Component{
         confirmButtonText: 'Yes',
         cancelButtonText: 'No'
     })
-    .then((result) => {
+    .then( async (result)  => {
         if(result.value){
+          let ifResponse;
+
           if(ticket_Status == 2){
-            //console.log(id,ticket_Status, 'id is logged in close ticket')
+            let fetchWaiter = await this.ApiCloseTicketCall(id);
+            ifResponse = fetchWaiter;
+          }
+          else if(ticket_Status == 3){
+            Swal.fire('Alert', 'Please the ticket is Already Closed', 'info', 4000);
+            ifResponse = false;
+          }
+          else{
+            Swal.fire('Alert', 'Please the ticket is not yet resolved', 'info', 5000);
+            ifResponse = false;
+          }
+          return ifResponse;
+        }
+        else if (result.dismiss) {
+          Swal.fire('Alert', 'The Ticket Is Still Open', 'info', 5000);
+          return false;
+        }
+    })
+   
+    return swalResponse;
+  }      
+
+  ApiCloseTicketCall  = async (id) =>{
             let url = `${this.state.baseAPI.baseEndPoint()}/Ticket/CloseTicket/${id}`;
          
-            fetch(url,{
+            let fetchwaiter = await fetch(url,{
               method: 'post',
               headers:{
                 'Content-Type': 'application/json'
@@ -38,43 +63,14 @@ export default class CloseTicketAPICall extends Component{
             .then(json => {
                 console.log(json, "This is the json response");
                 responseSender(json);
+                return true;
             })
             .catch(error => {
                 console.log(error)
-                Swal.fire({
-                  title:'Sorry!',
-                  text: 'Something Went Wrong!',
-                  icon:'error',
-                  timer:4000
-                })
+                Swal.fire('Sorry!', 'Something Went Wrong', 'error', 5000);
+                 return false;
             })
-          }
-          else if(ticket_Status == 3){
-              Swal.fire({
-                    title:'Alert!',
-                    text: 'Please the ticket is Already Closed',
-                    icon:'info',
-                    timer:4000
-                })
-            }
-          else{
-                Swal.fire({
-                    title:'Alert!',
-                    text: 'Please the ticket is not yet resolved',
-                    icon:'info',
-                    timer:5000
-                })
-          }
-        }
-        else if (result.dismiss) {
-            Swal.fire(
-                'Alert',
-                'The Ticket Is Still Open',
-                'info'
-              )
-        }
-    })
-      
-
-      }       
+            //console.log(fetchwaiter, "fetch water is consoled")
+            return fetchwaiter;
+  }
 }

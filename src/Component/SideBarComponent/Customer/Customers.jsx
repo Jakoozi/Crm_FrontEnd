@@ -20,24 +20,36 @@ export default class Customers extends Component{
     };
 
     UNSAFE_componentWillMount(){
-        let url = `${this.state.baseApi.baseEndPoint()}/Customer/GetAllCustomersService`
-    
+        let userData = JSON.parse(window.localStorage.getItem("userData"));
+        this.addUserDataToState(userData);
+    }
+    addUserDataToState = (userData) =>{
+       
+        if(userData.user_Role === 1){
+            let url = `${this.state.baseApi.baseEndPoint()}/Customer/GetAllCustomersService`;
+            this.getAllCustomersAPICall(url);
+        }
+        else if (userData.user_Role === 2){
+            let url = `${this.state.baseApi.baseEndPoint()}/Customer/GetCustomerByCompanyId?id=${userData.company_Id}`;
+            this.getAllCustomersAPICall(url);
+        }
+    }
+    getAllCustomersAPICall = (url) =>{
         fetch(url)
-                .then((response) =>  response.json())
-                .then((json) => {
-                    this.addDataToState(json.data);
-                } ) 
-                .catch(error => { 
-                           console.log(error)
-                           Swal.fire(
-                             {
-                               icon: 'error',
-                               title:'please!!',
-                               text: 'Check your internet connection'
-                             }
-                           )
-                       } 
-                );
+        .then(response => response.json())
+        .then(json => {  
+            this.addDataToState(json.data)
+        }) 
+        .catch(error => { 
+            console.log(error)
+            Swal.fire(
+                {
+                  icon: 'error',
+                  title:'please!!',
+                  text: 'Check your internet connection'
+                }
+              )
+        } );
     }
     addDataToState = (datarecived) => {
         //console.log(datarecived)

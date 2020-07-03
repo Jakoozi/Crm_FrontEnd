@@ -37,6 +37,9 @@ export default class ViewTicket extends Component{
         let id = JSON.parse(window.localStorage.getItem("ticketId"));
         let url = `${this.state.baseApi.baseEndPoint()}/Ticket/GetTicketById/${id}`
     
+        this.apiCaller(url);
+    }
+    apiCaller = (url) =>{
         fetch(url)
                 .then((response) =>  response.json())
                 .then((json) => {
@@ -126,6 +129,9 @@ export default class ViewTicket extends Component{
             .then(response => response.json())
             .then(json => {
                 responseSender(json);
+                
+                let url = `${this.state.baseApi.baseEndPoint()}/Ticket/GetTicketById/${id}`
+                this.apiCaller(url);
             })
             .catch(error => {
                 console.log(error)

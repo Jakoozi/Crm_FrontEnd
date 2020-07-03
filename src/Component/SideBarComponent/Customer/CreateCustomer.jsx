@@ -22,7 +22,6 @@ export default class CreateCustomer extends Component{
             first_Name:"",
             last_Name:"",  
             phonenumber:"",
-            xendCode:"",
             email:"",
             company_Id:"",    
         },
@@ -115,19 +114,18 @@ export default class CreateCustomer extends Component{
         e.preventDefault();
         this.setState({ display: false});
 
-        let {first_Name, last_Name, phonenumber, xendCode, email, company_Id} = this.state.data;
+        let {first_Name, last_Name, phonenumber, email, company_Id} = this.state.data;
         let { createdby_Userid} = this.state;
         let data1 = {
             first_Name,
             last_Name,
             phonenumber,
-            xendCode,
             email,
             company_Id,
             createdby_Userid
         }
  
-        if(first_Name && last_Name && phonenumber && xendCode && email)
+        if(first_Name && last_Name && phonenumber && email)
         {
             let data = JSON.stringify(data1);
             let url = `${this.state.baseApi.baseEndPoint()}/Customer/CreateCustomer`;
@@ -148,7 +146,6 @@ export default class CreateCustomer extends Component{
                     first_Name:"",
                     last_Name:"",  
                     phonenumber:"",
-                    xendCode:"",
                     email:""   }});
             })
             .catch(error => {
@@ -175,7 +172,7 @@ export default class CreateCustomer extends Component{
         }
     }
     createCustomerPageUi =() =>{
-         let {first_Name, last_Name, phonenumber, xendCode, email} = this.state.data;
+         let {first_Name, last_Name, phonenumber, email} = this.state.data;
         return(
             <div className="row">
                 <div className="col-md-2"></div>
@@ -234,22 +231,6 @@ export default class CreateCustomer extends Component{
                             </div>
                             <div className="col-md-6">
                                 <div className="form-group">
-                                    <label htmlFor="subject"><h5>Xend Code:</h5></label>
-                                    <input
-                                        onChange={this.handleInputChange}
-                                        type="text"
-                                        name="xendCode"
-                                        className="form-control "
-                                        placeholder="Enter.."
-                                        value={xendCode}
-                                    />
-                            
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="form-group">
                                     <label htmlFor="details"><h5>Email Address:</h5></label>
                                     <input
                                         onChange={this.handleInputChange}
@@ -261,8 +242,13 @@ export default class CreateCustomer extends Component{
                                     />
                                 </div>
                             </div>
+                        </div>
+                        <div className="row">
                             <div className="col-md-6">
                                 {this.companySelctorReturner()}
+                            </div>
+                            <div className="col-md-6">
+                                {/* this is an empty colunm */}
                             </div>
                         </div>
                         

@@ -22,7 +22,6 @@ export default class EditCustomer extends Component{
             last_Name:"", 
             email:"",    
             phonenumber:"",
-            xendCode:"",
         },
         id:"", 
         company_Id:"",
@@ -62,7 +61,6 @@ export default class EditCustomer extends Component{
                 last_Name:customer.last_Name, 
                 email:customer.email, 
                 phonenumber:customer.phonenumber,
-                xendCode:customer.xendCode,
             },   
             id:customer.id,
             company_Id: customer.company_Id,
@@ -82,20 +80,19 @@ export default class EditCustomer extends Component{
         e.preventDefault();
         this.setState({ display: false});
         
-        let {first_Name, last_Name, phonenumber, xendCode, email} = this.state.data;
+        let {first_Name, last_Name, phonenumber, email} = this.state.data;
         let {company_Id, updatedby_Userid, id} = this.state;
         let data1 = {
             first_Name,
             last_Name,
             phonenumber,
-            xendCode,
             email,
             company_Id,
             updatedby_Userid,
             id
         }
         
-        if(first_Name && last_Name && phonenumber && xendCode && email)
+        if(first_Name && last_Name && phonenumber && email)
         {
             let data = JSON.stringify(data1);
             let url = `${this.state.baseApi.baseEndPoint()}/Customer/UpdateCustomer`;
@@ -190,27 +187,16 @@ export default class EditCustomer extends Component{
                             </div>
                             <div className="col-md-6">
                                 <div className="form-group">
-                                    <label htmlFor="details"><h5>Customer's XendCode:</h5></label>
+                                    <label htmlFor="details"><h5>Customer's Email:</h5></label>
                                     <input
                                         onChange={this.handleInputChange}
                                         type="text"
-                                        name="xendCode"
-                                        className="form-control "
-                                        value={xendCode}
-                                
+                                        name="email"
+                                        className="form-control"
+                                        value={email}
                                     />
                                 </div>
                             </div>
-                        </div>
-                       <div className="form-group">
-                            <label htmlFor="details"><h5>Customer's Email:</h5></label>
-                            <input
-                                onChange={this.handleInputChange}
-                                type="text"
-                                name="email"
-                                className="form-control"
-                                value={email}
-                            />
                         </div>
                         <div class="form-buttons-w">
                             <button class="btn btn-primary" type="submit">

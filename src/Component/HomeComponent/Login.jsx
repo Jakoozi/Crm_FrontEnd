@@ -123,7 +123,7 @@ export default class Login extends Component {
         const { email, User_Password } = this.state.data;
         if (email && User_Password) {
           const data = JSON.stringify(this.state.data);
-          console.log(data, 'data is consoled')
+          //console.log(data, 'data is consoled')
 
           let url = `${this.state.baseAPI.baseEndPoint()}/User/AgentLogin`;
           
@@ -167,7 +167,7 @@ export default class Login extends Component {
 
       //this routes to the CreateTicket page
       if (this.state.login) {
-            this.props.history.push("/CreateTicket");
+            this.props.history.push("/Dashboard");
       }
 
         return(

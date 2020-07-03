@@ -20,7 +20,8 @@ export const responseSender =  (json) =>{
         {
           title:'Successful',
           text: `${json.message}`,
-          icon:"success"
+          icon:"success",
+          timer:4000
         }
       )
       return true;
@@ -30,9 +31,11 @@ export const responseSender =  (json) =>{
           {
             title:'sorry',
             text: `${json.message}`,
-            icon:"error"
+            icon:"error",
+            timer:5000
           }
       )
+      return false;
     } 
 }
 

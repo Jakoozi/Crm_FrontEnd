@@ -19,7 +19,7 @@ class SidebarComponent extends React.Component {
   }
   adminSideBar = () =>{
     return (
-      <div className="menu-and-user">
+      <div className="menu-and-user" style={{fontSize:"14px"}}>
         <ToastContainer />
         <div class="logged-user-w">
           <div class="avatar-w">
@@ -31,6 +31,21 @@ class SidebarComponent extends React.Component {
           </div>
         </div>
         <ul className="main-menu">
+          <li class="has-sub-menu">
+            <a href="">
+              <div class="icon-w">
+                <div className="os-icon os-icon-ui-02"></div>
+              </div>
+                <span>Dashboard</span>
+            </a>
+            <ul className="sub-menu">
+              <li>
+                <Link to="/Dashboard" className="nav-link">
+                  Dashboard
+                </Link>
+              </li>
+            </ul>
+          </li>
           <li class="has-sub-menu">
             <a href="">
               <div class="icon-w">
@@ -143,7 +158,7 @@ class SidebarComponent extends React.Component {
   }
   agentSideBar = () =>{
     return(
-      <div className="menu-and-user">
+      <div className="menu-and-user" style={{fontSize:"14px"}}>
         <div class="logged-user-w">
           <div class="avatar-w">
             <img alt="" src="img/avatar1.jpg"/>
@@ -154,6 +169,22 @@ class SidebarComponent extends React.Component {
           </div>
         </div>
         <ul className="main-menu">
+          
+          <li class="has-sub-menu">
+            <a href="" >
+              <div class="icon-w">
+                <div className="os-icon os-icon-ui-02"></div>
+              </div>
+                <span>Dashboard</span>
+            </a>
+            <ul className="sub-menu">
+              <li>
+                <Link to="/Dashboard" className="nav-link">
+                  Dashboard
+                </Link>
+              </li>
+            </ul>
+          </li>
           <li class="has-sub-menu">
             <a href="">
               <div class="icon-w">

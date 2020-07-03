@@ -248,11 +248,18 @@ export default class CreateTicketComponent extends Component{
                 headers:{
                   'Content-Type': 'application/json'
                 }
-            })
+            }) 
             .then(response => response.json())
             .then(json => {
-                responseSender(json);
-                this.setState({ display: true});
+                let responseReturn_Reciever = responseSender(json);
+                console.log(responseReturn_Reciever, 'response Reciever is consoled')
+                if(responseReturn_Reciever){
+                    this.setState({ display: true, data:{ ticket_Subject:"", ticket_details:""}});
+                }
+                else{
+                    this.setState({ display: true})
+                }
+                
             })
             .catch(error => {
                 console.log(error)
@@ -276,7 +283,6 @@ export default class CreateTicketComponent extends Component{
             )
             this.setState({ display: true});
         }
-        this.setState({ data:{ ticket_Subject:"", ticket_details:""} });
     }
     
     spinLoader = () =>{

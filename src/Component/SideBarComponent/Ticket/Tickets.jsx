@@ -27,26 +27,16 @@ export default class Tickets extends Component{
         if(user_Role === 1){
             let url = `${this.state.baseApi.baseEndPoint()}/Ticket/GetAllTickets`;
 
-            fetch(url)
-            .then((response) =>  response.json())
-            .then((json) => {
-                this.addDataToState(json.data);
-            } ) 
-            .catch(error => { 
-                console.log(error)
-                Swal.fire(
-                  {
-                    icon: 'error',
-                    title:'please!!',
-                    text: 'Check your internet connection'
-                  }
-                )
-            });
+            this.apiCaller(url)
         }
         else if(user_Role === 2){
             let url = `${this.state.baseApi.baseEndPoint()}/Ticket/GetTicketByCompany_Id?id=${company_Id}`;
 
-            fetch(url)
+            this.apiCaller(url)
+        }        
+      }
+    apiCaller = (url) =>{
+      fetch(url)
             .then((response) =>  response.json())
             .then((json) => {
                 this.addDataToState(json.data);
@@ -61,15 +51,7 @@ export default class Tickets extends Component{
                   }
                 )
             });
-        }
-
-        
-    
-        
-                
-                
-                
-      }
+    }
     addDataToState = (datarecived) => {
         _.reverse(datarecived);
         this.setState({data:datarecived, loaded:true})
@@ -95,22 +77,37 @@ export default class Tickets extends Component{
         let formatedDate = date;
         return <Moment format="ddd Do MMM, YYYY HH:mm">{formatedDate}</Moment>
     }
+    dataFilter = (ticketId) =>{
+      let data = this.state.data;
+      let filteredData = data.filter( data => {
+          if(data.id != ticketId){
+            return data;
+          }
+        }
+      )
+      this.setState({data:filteredData})
+    }
+    ticketCloser  = async (ticketId, ticket_Status) =>{
+      let responseReciever = await this.state.ticketCloser.closeTicket(ticketId, ticket_Status)
+      
+      if(responseReciever == true){
+        this.dataFilter(ticketId);
+      }
+    }
     closeTicket = (ticketId, ticket_Status) =>{
-        return(
-            <div  onClick={()=> this.state.ticketCloser.closeTicket(ticketId, ticket_Status)}>
-                <button class="btn btn-danger"> 
+         return(
+          <div  onClick={()=> this.ticketCloser(ticketId, ticket_Status)}>
+                <button class="btn btn-danger btn-sm"> 
                     Close Ticket
                 </button>
             </div>
-        );
+         );
     }
     resolveTicket = (ticketId) =>{
         return(
             <div onClick={() => this.handleViewClick(ticketId)}>
-                <Link to="/ResolveTicket" className="nav-link"> 
-                    <button class="btn btn-primary"> 
+                <Link to="/ResolveTicket" class="btn btn-primary btn-sm" > 
                         Resolve Ticket
-                    </button>
                 </Link>
             </div>
         );
@@ -118,6 +115,7 @@ export default class Tickets extends Component{
 
     render(){
         let data = this.state.data;
+        console.log(data, "data is consoled")
         let all = data.map(data =>{
                 return(
                     {
@@ -182,7 +180,7 @@ export default class Tickets extends Component{
                 label: 'Close Ticket',
                 field: 'close_Ticket',
                 sort: 'asc',
-                width: 100
+                width: 100,
               }
             ],
             rows:all
@@ -192,14 +190,14 @@ export default class Tickets extends Component{
                 <div class="content-w">
                    <div class="content-i">   
                         <div class="content-box">
-                             <div class="element-wrapper">
-                                 <MDBDataTable
+                             <div class="element-wrapper" >
+                                <MDBDataTable
                                      striped
                                      bordered
                                      hover
                                      entriesOptions={[5, 10, 15, 20]}
                                      data={Tabledata}
-                                 />
+                                />
                              </div>
                          </div>
                      </div>
