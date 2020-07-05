@@ -106,7 +106,7 @@ export default class Dashboard extends Component {
                 {
                   icon: 'error',
                   title:'please!!',
-                  text: 'Check your internet connection'
+                  text: 'Check your internet connection',
                 }
               )
         } );
